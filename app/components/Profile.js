@@ -2,7 +2,7 @@ import React from 'react'
 import Repos from './Github/Repos';
 import UserProfile from './Github/UserProfile';
 import Notes from './Notes/Notes';
-import getGithubInfo from '../utils/helpers';
+import { getGithubInfo } from '../utils/helpers';
 import Rebase from 're-base';
 
 const base = Rebase.createClass('https://github-note-taker.firebaseio.com/')

@@ -1,5 +1,6 @@
 import React from 'react';
 import Router from 'react-router';
+import { login } from '../utils/helpers';
 
 class SearchInsta extends React.Component {
   getRef(ref){
@@ -10,9 +11,14 @@ class SearchInsta extends React.Component {
     this.usernameRef.value = '';
     this.props.history.pushState(null, "/profile/" + username)
   }
+  goToLogin() {
+    console.log('going to login');
+    login();
+  }
   render(){
     return (
       <div className="col-sm-12">
+        <button className="btn btn-primary" onClick={() => this.goToLogin()}>Login</button>
         <form onSubmit={() => this.handleSubmit()}>
           <div className="form-group col-sm-7">
             <input type="text" className="form-control" ref={(ref) => this.getRef(ref)} />

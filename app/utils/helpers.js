@@ -16,18 +16,25 @@ function getRepos(username){
   let config = {
     url,
     method: 'get',
+    responseType: 'json',
     headers: {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Credentials': true,
       'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type, Authorization, Content-Length, X-Requested-With'
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization, Content-Length, X-Requested-With',
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
     }
   };
   return axios(config);
 }
 
-export default function getGithubInfo(username){
-  console.log('Insta', getRepos(username));
+export function getGithubInfo(username){
   return axios.all([getRepos(username), getUserInfo(username)])
     .then((arr) => ({repos: arr[0].data,bio: arr[1].data}))
+    .catch((err) => (console.log(err)));
+}
+
+export function login() {
+  return axios.get('/auth/instagram');
 }

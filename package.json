@@ -18,10 +18,11 @@
   "author": "Sunyoung Kim <sunyoungkim508@gmail.com> (http://sunyoungkim.xyz)",
   "license": "ISC",
   "dependencies": {
-    "express": "4.13.3",
     "axios": "^0.8.0",
     "body-parser": "^1.14.2",
     "cookie-parser": "^1.4.1",
+    "cors": "^2.7.1",
+    "express": "4.13.3",
     "express-session": "^1.13.0",
     "firebase": "^2.3.2",
     "history": "^2.0.0-rc2",
