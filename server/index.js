@@ -20,19 +20,19 @@ var INSTAGRAM_CLIENT_SECRET = "dbb54cf4de2f40fa9d8534ab3e273366";
 var app = express();
 var corsOptions = {"preflightContinue": true};
 
-var allowCrossDomain = function(req, res, next) {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+// var allowCrossDomain = function(req, res, next) {
+//   res.header('Access-Control-Allow-Origin', '*');
+//   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+//   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
-    if ('OPTIONS' == req.method) {
-      res.send(200);
-    } else {
-      next();
-    }
-};
+//   if ('OPTIONS' == req.method) {
+//     res.send(200);
+//   } else {
+//     next();
+//   }
+// };
 
-app.use(cors());
+app.use(cors(corsOptions));
 // app.options('*', cors());
 app.set('port', (process.env.PORT || 3000));
 app.use(express.static(__dirname + '/../public'));
