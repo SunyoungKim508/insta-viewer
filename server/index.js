@@ -39,6 +39,7 @@ app.use(express.static(__dirname + '/../public'));
 app.use(cookieParser());
 // Parse JSON (uniform resource locators)
 app.use(bodyParser.json());
+app.use(allowCrossDomain());
 // Parse forms (signup/login)
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session({
