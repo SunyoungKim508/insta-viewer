@@ -33,7 +33,7 @@ var allowCrossDomain = function(req, res, next) {
 };
 
 app.use(cors());
-
+app.options('*', cors());
 app.set('port', (process.env.PORT || 3000));
 app.use(express.static(__dirname + '/../public'));
 app.use(cookieParser());
