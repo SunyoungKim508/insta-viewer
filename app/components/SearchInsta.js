@@ -1,7 +1,7 @@
 import React from 'react';
 import Router from 'react-router';
 
-class SearchGithub extends React.Component {
+class SearchInsta extends React.Component {
   getRef(ref){
     this.usernameRef = ref;
   }
@@ -26,8 +26,8 @@ class SearchGithub extends React.Component {
   }
 }
 
-SearchGithub.PropTypes = {
+SearchInsta.PropTypes = {
   history: React.PropTypes.object.isRequired
 }
 
-export default SearchGithub;
+export default SearchInsta;

@@ -1,6 +1,6 @@
-# github-notetaker-egghead
+# insta-viewer
 
-[Build Your First React App](https://egghead.io/series/build-your-first-react-js-application) is an egghead lesson series.
+Built in React, Redux, and Bootstrap
 
 ### Instructions
 
