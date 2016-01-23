@@ -8,3 +8,8 @@ Built in React, Redux, and Bootstrap
 npm install
 webpack -w
 ```
+
+
+### Deployed at
+
+https://insta-viewer.herokuapp.com
