@@ -12,12 +12,12 @@ function getUserInfo(username){
 
 function getRepos(username){
   return axios.get(`https://api.instagram.com/v1/users/${username}/?access_token=506650360.cc4b050.0584728c2fcc4bd2a99b09884786db4a&scope=public_content`,
-        {
+        {headers: {
           'Access-Control-Allow-Origin': '*',
           'Access-Control-Allow-Credentials': true,
           'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS',
           'Access-Control-Allow-Headers': 'Content-Type, Authorization, Content-Length, X-Requested-With'
-        });
+        }});
 }
 
 export default function getGithubInfo(username){
