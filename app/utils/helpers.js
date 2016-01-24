@@ -29,19 +29,8 @@ export function getGithubInfo(username){
 }
 
 export function login() {
-  let url = '/auth/instagram';
-  let config = {
-    url,
-    method: 'get',
-    responseType: 'jsonp',
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Credentials': true,
-      'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type, Authorization, Content-Length, X-Requested-With',
-      'Content-Type': 'application/json',
-      'Accept': 'application/json'
-    }
-  };
-  return axios(config);
+  return axios('/auth/instagram')
+        .then(function(res) {
+          console.log('helper', res);
+        });
 }
