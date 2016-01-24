@@ -7,6 +7,18 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var cors = require('cors')
 var request = require('request');
+var User = require('../db/models/user');
+var mongoose = require('mongoose');
+
+var mongoURI = 'mongodb://admin:admin12@ds049925.mongolab.com:49925/twitter-viewer';
+mongoose.connect(mongoURI);
+
+// Run in seperate terminal window using 'mongod'
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function () {
+ console.log('Mongodb connection open');
+});
 
 
 /******************************************
@@ -55,18 +67,51 @@ app.use(passport.session());
 
 var TWITTER_CONSUMER_KEY = "0MBi9ezl2XwCEjlOvjJHxmZwL";
 var TWITTER_CONSUMER_SECRET = "dCY7HuA1ZQIJ8kgFouezTgRe7FvluU17wihcf9Xu5IQXI2Yt4b";
+// callback URL: http://insta-viewer.herokuapp.com/auth/twitter/callback
+
 
 passport.use(new TwitterStrategy({
     consumerKey: TWITTER_CONSUMER_KEY,
     consumerSecret: TWITTER_CONSUMER_SECRET,
-    callbackURL: "http://insta-viewer.herokuapp.com/auth/twitter/callback"
+    callbackURL: "http://localhost:3000/auth/twitter/callback"
   },
   function(token, tokenSecret, profile, done) {
-    // User.findOrCreate({ twitterId: profile.id }, function (err, user) {
+    var userObj = {
+      twitterId: profile.id,
+      username: profile.username,
+      fullname: profile.displayName,
+      photo: profile.photos[0].value
+    };
+    // console.log(User);
+    // User.findOrCreate(userObj, function (err, user) {
     //   return done(err, user);
     // });
-    // console.log(user);
-    return done(null, profile);
+    console.log('before going to db');
+    User.findOne({twitterId: profile.id}, function (err, user) {
+      console.log('inside findone');
+      if (user) {
+        console.log('inside user');
+        return done(err, user);
+      } else {
+        console.log('inside error', err);
+        User.create(userObj, function(err, user) {
+          console.log(userObj);
+          console.log(user);
+          return done(err, user);
+        })
+      }
+    });
+    /*
+      {
+        twitterId: profile.id,
+        username: profile.username,
+        fullname: profile.displayName,
+        photo: profile.photos[0].value
+      }
+     */
+
+    // console.log(profile);
+    // return done(null, profile);
   }
 ));
 
