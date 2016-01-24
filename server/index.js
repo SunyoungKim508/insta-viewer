@@ -15,12 +15,6 @@ CLIENT SECRET dbb54cf4de2f40fa9d8534ab3e273366
 WEBSITE URL http://localhost:3000
 REDIRECT URI  http://localhost:3000/auth/twitter/callback
 **********************************************/
-function log(req, res, next) {
-  console.log('working');
-  next();
-}
-var TWITTER_CLIENT_ID = "cc4b050c584f4c01a1588c3124c01ba4";
-var TWITTER_CLIENT_SECRET = "dbb54cf4de2f40fa9d8534ab3e273366";
 
 var app = express();
 var corsOptions = {"preflightContinue": true};
@@ -58,14 +52,17 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+
+var TWITTER_CONSUMER_KEY = "0MBi9ezl2XwCEjlOvjJHxmZwL";
+var TWITTER_CONSUMER_SECRET = "dCY7HuA1ZQIJ8kgFouezTgRe7FvluU17wihcf9Xu5IQXI2Yt4b";
+
 passport.use(new TwitterStrategy({
-    clientID: TWITTER_CLIENT_ID,
-    clientSecret: TWITTER_CLIENT_SECRET,
+    consumerKey: TWITTER_CONSUMER_KEY,
+    consumerSecret: TWITTER_CONSUMER_SECRET,
     callbackURL: "http://insta-viewer.herokuapp.com/auth/twitter/callback"
   },
-  function(accessToken, refreshToken, profile, done) {
-    User.findOrCreate({ instagramId: profile.id }, function (err, user) {
-      console.log('user', user);
+  function(token, tokenSecret, profile, done) {
+    User.findOrCreate({ twitterId: profile.id }, function (err, user) {
       return done(err, user);
     });
   }
