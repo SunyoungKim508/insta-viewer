@@ -24773,10 +24773,12 @@
 	        { className: 'col-sm-12' },
 	        _react2.default.createElement(
 	          'button',
-	          { className: 'btn btn-primary', onClick: function onClick() {
-	              return _this2.goToLogin();
-	            } },
-	          'Login'
+	          { className: 'btn btn-primary' },
+	          _react2.default.createElement(
+	            'a',
+	            { href: '/auth/instagram' },
+	            'Login'
+	          )
 	        ),
 	        _react2.default.createElement(
 	          'form',
@@ -24864,21 +24866,10 @@
 	}
 
 	function login() {
-	  var url = '/auth/instagram';
-	  var config = {
-	    url: url,
-	    method: 'get',
-	    responseType: 'jsonp',
-	    headers: {
-	      'Access-Control-Allow-Origin': '*',
-	      'Access-Control-Allow-Credentials': true,
-	      'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS',
-	      'Access-Control-Allow-Headers': 'Content-Type, Authorization, Content-Length, X-Requested-With',
-	      'Content-Type': 'application/json',
-	      'Accept': 'application/json'
-	    }
-	  };
-	  return (0, _axios2.default)(config);
+	  console.log('going to server now');
+	  return (0, _axios2.default)('/auth/instagram').then(function (res) {
+	    console.log('helper: got data from server', res);
+	  });
 	}
 
 /***/ },
@@ -26157,7 +26148,7 @@
 	            _react2.default.createElement(
 	              "a",
 	              { href: repo.id },
-	              repo.name
+	              repo.id
 	            )
 	          ),
 	          repo.username && _react2.default.createElement(
