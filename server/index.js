@@ -19,9 +19,6 @@ var INSTAGRAM_CLIENT_ID = "cc4b050c584f4c01a1588c3124c01ba4";
 var INSTAGRAM_CLIENT_SECRET = "dbb54cf4de2f40fa9d8534ab3e273366";
 
 var app = express();
-
-app.use(cors({credentials: true, origin: true}));
-
 var corsOptions = {"preflightContinue": true};
 
 var allowCrossDomain = function(req, res, next) {
@@ -36,7 +33,7 @@ var allowCrossDomain = function(req, res, next) {
   }
 };
 
-app.use(cors());
+app.use(cors({credentials: true, origin: true}));
 
 app.set('port', (process.env.PORT || 3000));
 app.use(express.static(__dirname + '/../public'));
