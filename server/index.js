@@ -5,7 +5,8 @@ var InstagramStrategy = require('passport-instagram').Strategy;
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session        = require('express-session');
-var cors = require('cors');
+var cors = require('cors')
+
 
 /******************************************
 CLIENT ID cc4b050c584f4c01a1588c3124c01ba4
@@ -18,28 +19,14 @@ var INSTAGRAM_CLIENT_ID = "cc4b050c584f4c01a1588c3124c01ba4";
 var INSTAGRAM_CLIENT_SECRET = "dbb54cf4de2f40fa9d8534ab3e273366";
 
 var app = express();
-var corsOptions = {"preflightContinue": true};
 
-// var allowCrossDomain = function(req, res, next) {
-//   res.header('Access-Control-Allow-Origin', '*');
-//   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-//   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+app.use(cors({credentials: true, origin: true}));
 
-//   if ('OPTIONS' == req.method) {
-//     res.send(200);
-//   } else {
-//     next();
-//   }
-// };
-
-app.use(cors(corsOptions));
-// app.options('*', cors());
 app.set('port', (process.env.PORT || 3000));
 app.use(express.static(__dirname + '/../public'));
 app.use(cookieParser());
 // Parse JSON (uniform resource locators)
 app.use(bodyParser.json());
-app.use(allowCrossDomain());
 // Parse forms (signup/login)
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session({
@@ -82,7 +69,7 @@ passport.deserializeUser(function(obj, done) {
 passport.use(new InstagramStrategy({
     clientID: INSTAGRAM_CLIENT_ID,
     clientSecret: INSTAGRAM_CLIENT_SECRET,
-    callbackURL: "http://localhost:3000/auth/instagram/callback"
+    callbackURL: "http://insta-viewer.herokuapp.com"
   },
   function(accessToken, refreshToken, profile, done) {
     // asynchronous verification, for effect...
@@ -114,9 +101,8 @@ app.get('/login', function(req, res){
 //   request.  The first step in Instagram authentication will involve
 //   redirecting the user to instagram.com.  After authorization, Instagram
 //   will redirect the user back to this application at /auth/instagram/callback
-app.get('/auth/instagram', allowCrossDomain,
+app.get('/auth/instagram',
   passport.authenticate('instagram'),
-  allowCrossDomain,
   function(req, res){
     // The request will be redirected to Instagram for authentication, so this
     // function will not be called.
@@ -127,7 +113,7 @@ app.get('/auth/instagram', allowCrossDomain,
 //   request.  If authentication fails, the user will be redirected back to the
 //   login page.  Otherwise, the primary route function function will be called,
 //   which, in this example, will redirect the user to the home page.
-app.get('/auth/instagram/callback', allowCrossDomain,
+app.get('/auth/instagram/callback', 
   passport.authenticate('instagram', { failureRedirect: '/login' }),
   function(req, res) {
     console.log('I have got here');
