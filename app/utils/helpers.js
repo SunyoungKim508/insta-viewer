@@ -28,10 +28,3 @@ export function getGithubInfo(username){
     .catch((err) => (console.log(err)));
 }
 
-export function login() {
-  console.log('going to server now');
-  return axios('/auth/instagram')
-        .then(function(res) {
-          console.log('helper: got data from server', res);
-        });
-}

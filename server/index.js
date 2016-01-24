@@ -1,7 +1,7 @@
 var express = require('express');
 var passport = require('passport');
 var util = require('util');
-var InstagramStrategy = require('passport-instagram').Strategy;
+var TwitterStrategy = require('passport-twitter').Strategy;
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
@@ -13,14 +13,14 @@ var request = require('request');
 CLIENT ID cc4b050c584f4c01a1588c3124c01ba4
 CLIENT SECRET dbb54cf4de2f40fa9d8534ab3e273366
 WEBSITE URL http://localhost:3000
-REDIRECT URI  http://localhost:3000/auth/instagram/callback
+REDIRECT URI  http://localhost:3000/auth/twitter/callback
 **********************************************/
 function log(req, res, next) {
   console.log('working');
   next();
 }
-var INSTAGRAM_CLIENT_ID = "cc4b050c584f4c01a1588c3124c01ba4";
-var INSTAGRAM_CLIENT_SECRET = "dbb54cf4de2f40fa9d8534ab3e273366";
+var TWITTER_CLIENT_ID = "cc4b050c584f4c01a1588c3124c01ba4";
+var TWITTER_CLIENT_SECRET = "dbb54cf4de2f40fa9d8534ab3e273366";
 
 var app = express();
 var corsOptions = {"preflightContinue": true};
@@ -58,10 +58,10 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.use(new InstagramStrategy({
-    clientID: INSTAGRAM_CLIENT_ID,
-    clientSecret: INSTAGRAM_CLIENT_SECRET,
-    callbackURL: "http://insta-viewer.herokuapp.com/auth/instagram/callback"
+passport.use(new TwitterStrategy({
+    clientID: TWITTER_CLIENT_ID,
+    clientSecret: TWITTER_CLIENT_SECRET,
+    callbackURL: "http://insta-viewer.herokuapp.com/auth/twitter/callback"
   },
   function(accessToken, refreshToken, profile, done) {
     User.findOrCreate({ instagramId: profile.id }, function (err, user) {
