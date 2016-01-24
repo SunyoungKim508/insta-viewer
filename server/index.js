@@ -65,6 +65,7 @@ passport.use(new TwitterStrategy({
     // User.findOrCreate({ twitterId: profile.id }, function (err, user) {
     //   return done(err, user);
     // });
+    console.log(user);
     return done(err, user);
   }
 ));
@@ -96,6 +97,7 @@ app.get('/auth/twitter/callback',
   passport.authenticate('twitter', { failureRedirect: '/login' }),
   function(req, res) {
     // Successful authentication, redirect home.
+    console.log('YO WORK');
     res.redirect('/');
   });
 
