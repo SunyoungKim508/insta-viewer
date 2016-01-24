@@ -57,7 +57,7 @@ app.use(passport.session());
 passport.use(new InstagramStrategy({
     clientID: INSTAGRAM_CLIENT_ID,
     clientSecret: INSTAGRAM_CLIENT_SECRET,
-    callbackURL: "http://localhost:3000/auth/instagram/callback"
+    callbackURL: "http://insta-viewer.herokuapp.com/auth/instagram/callback"
   },
   function(accessToken, refreshToken, profile, done) {
     User.findOrCreate({ instagramId: profile.id }, function (err, user) {
