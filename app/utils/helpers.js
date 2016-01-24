@@ -29,8 +29,9 @@ export function getGithubInfo(username){
 }
 
 export function login() {
+  console.log('going to server now');
   return axios('/auth/instagram')
         .then(function(res) {
-          console.log('helper', res);
+          console.log('helper: got data from server', res);
         });
 }
