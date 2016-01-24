@@ -62,9 +62,10 @@ passport.use(new TwitterStrategy({
     callbackURL: "http://insta-viewer.herokuapp.com/auth/twitter/callback"
   },
   function(token, tokenSecret, profile, done) {
-    User.findOrCreate({ twitterId: profile.id }, function (err, user) {
-      return done(err, user);
-    });
+    // User.findOrCreate({ twitterId: profile.id }, function (err, user) {
+    //   return done(err, user);
+    // });
+    return done(err, user);
   }
 ));
 
