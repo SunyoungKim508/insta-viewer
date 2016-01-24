@@ -22,11 +22,28 @@ var app = express();
 
 app.use(cors({credentials: true, origin: true}));
 
+var corsOptions = {"preflightContinue": true};
+
+var allowCrossDomain = function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
+  if ('OPTIONS' == req.method) {
+    res.send(200);
+  } else {
+    next();
+  }
+};
+
+app.use(cors());
+
 app.set('port', (process.env.PORT || 3000));
 app.use(express.static(__dirname + '/../public'));
 app.use(cookieParser());
 // Parse JSON (uniform resource locators)
 app.use(bodyParser.json());
+app.use(allowCrossDomain);
 // Parse forms (signup/login)
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session({
