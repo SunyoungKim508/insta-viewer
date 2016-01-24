@@ -18,7 +18,7 @@ class SearchInsta extends React.Component {
   render(){
     return (
       <div className="col-sm-12">
-        <button className="btn btn-primary" onClick={() => this.goToLogin()}>Login</button>
+        <button className="btn btn-primary"><a href="/auth/instagram">Login</a></button>
         <form onSubmit={() => this.handleSubmit()}>
           <div className="form-group col-sm-7">
             <input type="text" className="form-control" ref={(ref) => this.getRef(ref)} />
