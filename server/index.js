@@ -87,7 +87,7 @@ passport.deserializeUser(function(obj, done) {
 passport.use(new InstagramStrategy({
     clientID: INSTAGRAM_CLIENT_ID,
     clientSecret: INSTAGRAM_CLIENT_SECRET,
-    callbackURL: "http://insta-viewer.herokuapp.com"
+    callbackURL: "http://insta-viewer.herokuapp.com/auth/instagram/callback"
   },
   function(accessToken, refreshToken, profile, done) {
     // asynchronous verification, for effect...
@@ -132,7 +132,7 @@ app.get('/auth/instagram',
 //   request.  If authentication fails, the user will be redirected back to the
 //   login page.  Otherwise, the primary route function function will be called,
 //   which, in this example, will redirect the user to the home page.
-app.get('/auth/instagram/callback', log,
+app.get('/auth/instagram/callback',
   passport.authenticate('instagram', { failureRedirect: '/login' }),
   function(req, res) {
     console.log('I have got here');
