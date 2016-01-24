@@ -24776,7 +24776,7 @@
 	          { className: 'btn btn-primary' },
 	          _react2.default.createElement(
 	            'a',
-	            { href: '/auth/instagram' },
+	            { href: '/auth/twitter' },
 	            'Login'
 	          )
 	        ),
@@ -24826,7 +24826,6 @@
 	});
 	exports.getRepos = getRepos;
 	exports.getGithubInfo = getGithubInfo;
-	exports.login = login;
 
 	var _axios = __webpack_require__(221);
 
@@ -24862,13 +24861,6 @@
 	    return { repos: data, bio: arr[1].data };
 	  }).catch(function (err) {
 	    return console.log(err);
-	  });
-	}
-
-	function login() {
-	  console.log('going to server now');
-	  return (0, _axios2.default)('/auth/instagram').then(function (res) {
-	    console.log('helper: got data from server', res);
 	  });
 	}
 

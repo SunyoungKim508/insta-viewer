@@ -79,30 +79,6 @@ passport.deserializeUser(function(obj, done) {
   done(null, obj);
 });
 
-
-// Use the InstagramStrategy within Passport.
-//   Strategies in Passport require a `verify` function, which accept
-//   credentials (in this case, an accessToken, refreshToken, and Instagram
-//   profile), and invoke a callback with a user object.
-passport.use(new InstagramStrategy({
-    clientID: INSTAGRAM_CLIENT_ID,
-    clientSecret: INSTAGRAM_CLIENT_SECRET,
-    callbackURL: "http://insta-viewer.herokuapp.com/auth/instagram/callback"
-  },
-  function(accessToken, refreshToken, profile, done) {
-    // asynchronous verification, for effect...
-    console.log('yo');
-    process.nextTick(function () {
-      
-      // To keep the example simple, the user's Instagram profile is returned to
-      // represent the logged-in user.  In a typical application, you would want
-      // to associate the Instagram account with a user record in your database,
-      // and return that user instead.
-      return done(null, profile);
-    });
-  }
-));
-
 app.get('/', function(req, res){
   res.render('index', { user: req.user });
 });
@@ -115,29 +91,16 @@ app.get('/login', function(req, res){
   res.render('login', { user: req.user });
 });
 
-// GET /auth/instagram
-//   Use passport.authenticate() as route middleware to authenticate the
-//   request.  The first step in Instagram authentication will involve
-//   redirecting the user to instagram.com.  After authorization, Instagram
-//   will redirect the user back to this application at /auth/instagram/callback
-app.get('/auth/instagram',
-  passport.authenticate('instagram'),
-  function(req, res){
-    // The request will be redirected to Instagram for authentication, so this
-    // function will not be called.
-  });
+app.get('/auth/twitter',
+  passport.authenticate('twitter'));
 
-// GET /auth/instagram/callback
-//   Use passport.authenticate() as route middleware to authenticate the
-//   request.  If authentication fails, the user will be redirected back to the
-//   login page.  Otherwise, the primary route function function will be called,
-//   which, in this example, will redirect the user to the home page.
-app.get('/auth/instagram/callback',
-  passport.authenticate('instagram', { failureRedirect: '/login' }),
+app.get('/auth/twitter/callback', 
+  passport.authenticate('twitter', { failureRedirect: '/login' }),
   function(req, res) {
-    console.log('I have got here');
+    // Successful authentication, redirect home.
     res.redirect('/');
   });
+
 
 app.get('/logout', function(req, res){
   req.logout();
