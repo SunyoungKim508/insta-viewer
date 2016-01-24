@@ -65,8 +65,8 @@ passport.use(new TwitterStrategy({
     // User.findOrCreate({ twitterId: profile.id }, function (err, user) {
     //   return done(err, user);
     // });
-    console.log(user);
-    return done(err, user);
+    // console.log(user);
+    return done(null, profile);
   }
 ));
 
