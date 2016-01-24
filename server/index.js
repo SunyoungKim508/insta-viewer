@@ -94,7 +94,7 @@ app.get('/auth/twitter',
   passport.authenticate('twitter'));
 
 app.get('/auth/twitter/callback', 
-  passport.authenticate('twitter', { failureRedirect: '/login' }),
+  passport.authenticate('twitter', { failureRedirect: '/login', successRedirect: '/' }),
   function(req, res) {
     // Successful authentication, redirect home.
     console.log('YO WORK');
