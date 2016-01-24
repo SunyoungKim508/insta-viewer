@@ -4,7 +4,7 @@ var util = require('util');
 var InstagramStrategy = require('passport-instagram').Strategy;
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var session        = require('express-session');
+var session = require('express-session');
 var cors = require('cors')
 
 
@@ -14,7 +14,10 @@ CLIENT SECRET dbb54cf4de2f40fa9d8534ab3e273366
 WEBSITE URL http://localhost:3000
 REDIRECT URI  http://localhost:3000/auth/instagram/callback
 **********************************************/
-
+function log(req, res, next) {
+  console.log('working');
+  next();
+}
 var INSTAGRAM_CLIENT_ID = "cc4b050c584f4c01a1588c3124c01ba4";
 var INSTAGRAM_CLIENT_SECRET = "dbb54cf4de2f40fa9d8534ab3e273366";
 
@@ -84,7 +87,7 @@ passport.use(new InstagramStrategy({
     clientID: INSTAGRAM_CLIENT_ID,
     clientSecret: INSTAGRAM_CLIENT_SECRET,
     callbackURL: "http://insta-viewer.herokuapp.com"
-  },
+  }, log,
   function(accessToken, refreshToken, profile, done) {
     // asynchronous verification, for effect...
     process.nextTick(function () {
@@ -115,7 +118,7 @@ app.get('/login', function(req, res){
 //   request.  The first step in Instagram authentication will involve
 //   redirecting the user to instagram.com.  After authorization, Instagram
 //   will redirect the user back to this application at /auth/instagram/callback
-app.get('/auth/instagram',
+app.get('/auth/instagram', log,
   passport.authenticate('instagram'),
   function(req, res){
     // The request will be redirected to Instagram for authentication, so this
@@ -127,7 +130,7 @@ app.get('/auth/instagram',
 //   request.  If authentication fails, the user will be redirected back to the
 //   login page.  Otherwise, the primary route function function will be called,
 //   which, in this example, will redirect the user to the home page.
-app.get('/auth/instagram/callback', 
+app.get('/auth/instagram/callback', log,
   passport.authenticate('instagram', { failureRedirect: '/login' }),
   function(req, res) {
     console.log('I have got here');
