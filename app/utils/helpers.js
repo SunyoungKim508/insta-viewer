@@ -8,15 +8,32 @@ function getUserInfo(username){
   return axios.get(`https://api.github.com/users/${username}`);
 }
 
-// https://api.instagram.com/v1/users/stella_58
+// user id
+// https://api.instagram.com/v1/users/506650360
 
+export function getRepos(username){
+  return axios('/search/'+username)
+        // .then((data) => {console.log('getRepos', data)};)
+        .then(function(res) {
+          console.log('getRepos', res.data);
+          return res.data;
+        })
+        .catch((err) => {console.log('getRepost', err)});
+}
 
-function getRepos(username){
-  let url = `https://api.instagram.com/v1/users/${username}/?access_token=506650360.cc4b050.0584728c2fcc4bd2a99b09884786db4a&scope=public_content`;
+export function getGithubInfo(username){
+  console.log('here!', getRepos(username));
+  return axios.all([getRepos(username), getUserInfo(username)])
+    .then((arr) => ({repos: data, bio: arr[1].data}))
+    .catch((err) => (console.log(err)));
+}
+
+export function login() {
+  let url = '/auth/instagram';
   let config = {
     url,
     method: 'get',
-    responseType: 'json',
+    responseType: 'jsonp',
     headers: {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Credentials': true,
@@ -27,14 +44,4 @@ function getRepos(username){
     }
   };
   return axios(config);
-}
-
-export function getGithubInfo(username){
-  return axios.all([getRepos(username), getUserInfo(username)])
-    .then((arr) => ({repos: arr[0].data,bio: arr[1].data}))
-    .catch((err) => (console.log(err)));
-}
-
-export function login() {
-  return axios.get('/auth/instagram');
 }

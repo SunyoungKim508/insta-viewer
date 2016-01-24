@@ -24822,6 +24822,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	exports.getRepos = getRepos;
 	exports.getGithubInfo = getGithubInfo;
 	exports.login = login;
 
@@ -24839,14 +24840,35 @@
 	  return _axios2.default.get('https://api.github.com/users/' + username);
 	}
 
-	// https://api.instagram.com/v1/users/stella_58
+	// user id
+	// https://api.instagram.com/v1/users/506650360
 
 	function getRepos(username) {
-	  var url = 'https://api.instagram.com/v1/users/' + username + '/?access_token=506650360.cc4b050.0584728c2fcc4bd2a99b09884786db4a&scope=public_content';
+	  return (0, _axios2.default)('/search/' + username)
+	  // .then((data) => {console.log('getRepos', data)};)
+	  .then(function (res) {
+	    console.log('getRepos', res.data);
+	    return res.data;
+	  }).catch(function (err) {
+	    console.log('getRepost', err);
+	  });
+	}
+
+	function getGithubInfo(username) {
+	  console.log('here!', getRepos(username));
+	  return _axios2.default.all([getRepos(username), getUserInfo(username)]).then(function (arr) {
+	    return { repos: data, bio: arr[1].data };
+	  }).catch(function (err) {
+	    return console.log(err);
+	  });
+	}
+
+	function login() {
+	  var url = '/auth/instagram';
 	  var config = {
 	    url: url,
 	    method: 'get',
-	    responseType: 'json',
+	    responseType: 'jsonp',
 	    headers: {
 	      'Access-Control-Allow-Origin': '*',
 	      'Access-Control-Allow-Credentials': true,
@@ -24857,18 +24879,6 @@
 	    }
 	  };
 	  return (0, _axios2.default)(config);
-	}
-
-	function getGithubInfo(username) {
-	  return _axios2.default.all([getRepos(username), getUserInfo(username)]).then(function (arr) {
-	    return { repos: arr[0].data, bio: arr[1].data };
-	  }).catch(function (err) {
-	    return console.log(err);
-	  });
-	}
-
-	function login() {
-	  return _axios2.default.get('/auth/instagram');
 	}
 
 /***/ },
@@ -26054,10 +26064,11 @@
 	        state: 'notes'
 	      });
 
-	      (0, _helpers.getGithubInfo)(username).then(function (data) {
+	      (0, _helpers.getRepos)(username).then(function (data) {
+	        console.log('profile.js', data);
 	        this.setState({
-	          bio: data.bio,
-	          repos: data.repos
+	          // bio: data.bio,
+	          repos: data
 	        });
 	      }.bind(this));
 	    }
@@ -26138,20 +26149,26 @@
 	      repos.map(function (repo, index) {
 	        return _react2.default.createElement(
 	          "li",
-	          { className: "list-group-item", key: repo.name },
-	          repo.html_url && _react2.default.createElement(
+	          { className: "list-group-item", key: repo.id },
+	          repo.profile_picture && _react2.default.createElement("img", { src: repo.profile_picture, className: "img-rounded img-responsive" }),
+	          repo.id && _react2.default.createElement(
 	            "h4",
 	            null,
 	            _react2.default.createElement(
 	              "a",
-	              { href: repo.html_url },
+	              { href: repo.id },
 	              repo.name
 	            )
 	          ),
-	          repo.description && _react2.default.createElement(
+	          repo.username && _react2.default.createElement(
 	            "p",
 	            null,
-	            repo.description
+	            repo.username
+	          ),
+	          repo.full_name && _react2.default.createElement(
+	            "p",
+	            null,
+	            repo.full_name
 	          )
 	        );
 	      })

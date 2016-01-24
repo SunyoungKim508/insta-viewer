@@ -2,7 +2,7 @@ import React from 'react'
 import Repos from './Github/Repos';
 import UserProfile from './Github/UserProfile';
 import Notes from './Notes/Notes';
-import { getGithubInfo } from '../utils/helpers';
+import { getGithubInfo, getRepos } from '../utils/helpers';
 import Rebase from 're-base';
 
 const base = Rebase.createClass('https://github-note-taker.firebaseio.com/')
@@ -33,11 +33,12 @@ class Profile extends React.Component {
       state: 'notes'
     });
 
-    getGithubInfo(username)
+    getRepos(username)
       .then(function(data){
+        console.log('profile.js', data);
         this.setState({
-          bio: data.bio,
-          repos: data.repos
+          // bio: data.bio,
+          repos: data
         })
       }.bind(this))
   }

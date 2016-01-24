@@ -7,9 +7,11 @@ const Repos = ({repos}) => {
       <ul className="list-group">
         {repos.map((repo, index) => {
           return (
-            <li className="list-group-item" key={repo.name}>
-              {repo.html_url && <h4><a href={repo.html_url}>{repo.name}</a></h4>}
-              {repo.description && <p>{repo.description}</p>}
+            <li className="list-group-item" key={repo.id}>
+              {repo.profile_picture && <img src={repo.profile_picture} className="img-rounded img-responsive"/>}
+              {repo.id && <h4><a href={repo.id}>{repo.id}</a></h4>}
+              {repo.username && <p>{repo.username}</p>}
+              {repo.full_name && <p>{repo.full_name}</p>}
             </li>
           )
         })}

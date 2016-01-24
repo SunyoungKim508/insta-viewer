@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var cors = require('cors')
+var request = require('request');
 
 
 /******************************************
@@ -87,9 +88,10 @@ passport.use(new InstagramStrategy({
     clientID: INSTAGRAM_CLIENT_ID,
     clientSecret: INSTAGRAM_CLIENT_SECRET,
     callbackURL: "http://insta-viewer.herokuapp.com"
-  }, log,
+  },
   function(accessToken, refreshToken, profile, done) {
     // asynchronous verification, for effect...
+    console.log('yo');
     process.nextTick(function () {
       
       // To keep the example simple, the user's Instagram profile is returned to
@@ -118,7 +120,7 @@ app.get('/login', function(req, res){
 //   request.  The first step in Instagram authentication will involve
 //   redirecting the user to instagram.com.  After authorization, Instagram
 //   will redirect the user back to this application at /auth/instagram/callback
-app.get('/auth/instagram', log,
+app.get('/auth/instagram',
   passport.authenticate('instagram'),
   function(req, res){
     // The request will be redirected to Instagram for authentication, so this
@@ -144,6 +146,37 @@ app.get('/logout', function(req, res){
 
 app.listen(app.get('port'), function() {
   console.log('It is working!');
+});
+
+app.get('/search/:username', function(req, res) {
+  var user = req.params.username;
+  var token = '506650360.cc4b050.0584728c2fcc4bd2a99b09884786db4a';
+  // var url = 'https://api.instagram.com/v1/users/'+user+'/?access_token=506650360.cc4b050.0584728c2fcc4bd2a99b09884786db4a&scope=public_content';
+  var url = 'https://api.instagram.com/v1/users/search?q='+user+'&access_token=' + token;
+  console.log(url);
+  var options = {
+    url: url,
+    json: true,
+    headers: {
+      'User-Agent': 'request',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    }
+  };
+
+  function callback(error, response, body) {
+    if (!error) {
+      console.log('hi', JSON.stringify(body.data)); // Print the google web page.
+      res.json(body.data);
+    } else {
+      console.log('yo', error);
+    }
+  }
+
+  request(options, callback);
 });
 
 // Simple route middleware to ensure user is authenticated.
