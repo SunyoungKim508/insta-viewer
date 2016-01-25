@@ -8,6 +8,7 @@ class Profile extends React.Component {
     this.state = {
       profile: {}
     }
+    console.log('profile.js router', this.props.history);
   }
   componentDidMount(){
     this.init(this.props.params.username)
@@ -33,9 +34,9 @@ class Profile extends React.Component {
   render(){
     return (
       <div className="row">
-        <div className="col-md-3"></div> 
+        <div className="col-md-3"></div>
         <div className="col-md-6">
-          <UserProfile username={this.props.params.username} profile={this.state.profile}/>
+          <UserProfile history={this.props.history} username={this.props.params.username} profile={this.state.profile}/>
         </div>
         <div className="col-md-3"></div> 
       </div>

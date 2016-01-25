@@ -24683,11 +24683,6 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	// var height = {
-	//   width: '100%',
-	//   height: '40%',
-	//   backgroundColor:'#FFA07A'
-	// };
 	var background = {
 	  'background': '-webkit-gradient(linear, left top, right top, from(#1a82f7), to(#2F2727))'
 	};
@@ -24916,6 +24911,7 @@
 	    _this.state = {
 	      profile: {}
 	    };
+	    console.log('profile.js router', _this.props.history);
 	    return _this;
 	  }
 
@@ -24956,7 +24952,7 @@
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'col-md-6' },
-	          _react2.default.createElement(_UserProfile2.default, { username: this.props.params.username, profile: this.state.profile })
+	          _react2.default.createElement(_UserProfile2.default, { history: this.props.history, username: this.props.params.username, profile: this.state.profile })
 	        ),
 	        _react2.default.createElement('div', { className: 'col-md-3' })
 	      );
@@ -25008,13 +25004,26 @@
 	      // this.init(nextProps.params.username);
 	    }
 	  }, {
+	    key: 'handleClick',
+	    value: function handleClick() {
+	      console.log(this.props.profile.protected);
+	      var isPrivate = this.props.profile.protected;
+	      if (isPrivate) {
+	        // redirect to login page
+	      } else {
+	          // change route to tweets
+	          console.log('change route to tweets');
+	          console.log(this.props.history);
+	          this.props.history.pushState(null, "/tweets/" + this.props.profile.screen_name);
+	        }
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
+	      var _this2 = this;
+
 	      var profile = this.props.profile;
 
-	      console.log('profile got here');
-	      console.log(profile);
-	      console.log('id', profile.id);
 	      return _react2.default.createElement(
 	        'div',
 	        null,
@@ -25023,23 +25032,18 @@
 	          { className: 'center-block' },
 	          profile.id === undefined && _react2.default.createElement(
 	            'h3',
-	            { className: 'text-center', style: { color: '#ff51e6', marginTop: 30, fontFamily: 'Lato', fontWeight: 300 } },
+	            { className: 'text-center', style: { color: '#ff98f0', marginTop: 30, fontFamily: 'Lato', fontWeight: 300 } },
 	            ' No user matches for specified terms '
 	          )
 	        ),
 	        profile.id && _react2.default.createElement(
 	          'div',
 	          { onClick: function onClick() {
-	              console.log('clicked');
+	              return _this2.handleClick();
 	            }, className: 'center-block', style: { color: 'black' } },
 	          _react2.default.createElement(
-	            'h3',
-	            null,
-	            ' User Found '
-	          ),
-	          _react2.default.createElement(
 	            'ul',
-	            { className: 'list-group' },
+	            { className: 'list-group', style: { marginTop: 30 } },
 	            _react2.default.createElement(
 	              'li',
 	              { className: 'list-group-item', key: profile.id },
@@ -25088,6 +25092,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	exports.getTweets = getTweets;
 	exports.getUserInfo = getUserInfo;
 
 	var _axios = __webpack_require__(225);
@@ -25100,8 +25105,13 @@
 	//   return axios.get(`https://api.github.com/users/${username}/repos`);
 	// }
 
-	function getProfile(username) {
-	  return;
+	function getTweets(username) {
+	  console.log('going to server from getTweets');
+	  return (0, _axios2.default)('/tweets/' + username).then(function (res) {
+	    return res.data;
+	  }).catch(function (err) {
+	    console.log('getTweets', err);
+	  });
 	}
 
 	// user id
@@ -25109,7 +25119,7 @@
 
 	function getUserInfo(username) {
 	  console.log('going to server');
-	  return (0, _axios2.default)('/search/' + username)
+	  return (0, _axios2.default)('/user/' + username)
 	  // .then((data) => {console.log('getUser', data)};)
 	  .then(function (res) {
 	    console.log(res);
@@ -26198,7 +26208,7 @@
 /* 242 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -26209,6 +26219,8 @@
 	var _react = __webpack_require__(1);
 
 	var _react2 = _interopRequireDefault(_react);
+
+	var _helpers = __webpack_require__(224);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -26227,27 +26239,76 @@
 	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Tweets).call(this, props));
 
 	    _this.state = {
-	      bio: {},
-	      repos: []
+	      tweets: []
 	    };
 	    return _this;
 	  }
 
 	  _createClass(Tweets, [{
-	    key: "render",
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      this.init(this.props.params.username);
+	    }
+	  }, {
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps(nextProps) {
+	      this.init(nextProps.params.username);
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {}
+	  }, {
+	    key: 'init',
+	    value: function init(username) {
+	      console.log(username);
+
+	      (0, _helpers.getTweets)(username).then(function (data) {
+	        console.log('got data', data);
+	        data = data === undefined ? {} : data;
+	        console.log('Tweets.js', data);
+	        this.setState({
+	          tweets: data
+	        });
+	      }.bind(this));
+	    }
+	    // request 10 most tweets
+
+	  }, {
+	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
-	        "div",
-	        { className: "row" },
+	        'div',
+	        { className: 'row', style: { color: 'black' } },
 	        _react2.default.createElement(
-	          "div",
-	          { className: "col-md-4", style: { backgroundColor: 'red' } },
-	          _react2.default.createElement(UserTweets, { username: this.props.params.username, bio: this.state.bio })
-	        ),
-	        _react2.default.createElement(
-	          "div",
-	          { className: "col-md-4" },
-	          _react2.default.createElement(Repos, { username: this.props.params.username, repos: this.state.repos })
+	          'ul',
+	          { className: 'list-group' },
+	          this.state.tweets.map(function (tweet, index) {
+	            return _react2.default.createElement(
+	              'li',
+	              { className: 'list-group-item', key: index },
+	              tweet.user.name && _react2.default.createElement(
+	                'p',
+	                { className: 'list-group-item' },
+	                tweet.user.name
+	              ),
+	              tweet.user.screen_name && _react2.default.createElement(
+	                'p',
+	                { className: 'list-group-item' },
+	                tweet.user.screen_name
+	              ),
+	              tweet.created_at && _react2.default.createElement(
+	                'p',
+	                { className: 'list-group-item' },
+	                tweet.created_at
+	              ),
+	              tweet.text && _react2.default.createElement(
+	                'p',
+	                { className: 'list-group-item' },
+	                tweet.text
+	              ),
+	              tweet.user.profile_image_url && _react2.default.createElement('img', { style: { width: 30, height: 30 }, src: 'tweet.user.profile_image_url' })
+	            );
+	          })
 	        )
 	      );
 	    }
@@ -26255,6 +26316,10 @@
 
 	  return Tweets;
 	}(_react2.default.Component);
+
+	Tweets.PropTypes = {
+	  tweets: _react2.default.PropTypes.object.isRequired
+	};
 
 	exports.default = Tweets;
 

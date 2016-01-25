@@ -4,8 +4,13 @@ import axios from 'axios'
 //   return axios.get(`https://api.github.com/users/${username}/repos`);
 // }
 
-function getProfile(username){
-  return ;
+export function getTweets(username){
+  console.log('going to server from getTweets')
+  return axios('/tweets/'+username)
+    .then(function(res) {
+      return res.data;
+    })
+    .catch((err) => {console.log('getTweets', err)})
 }
 
 // user id
@@ -13,7 +18,7 @@ function getProfile(username){
 
 export function getUserInfo(username){
   console.log('going to server');
-  return axios('/search/'+username)
+  return axios('/user/'+username)
     // .then((data) => {console.log('getUser', data)};)
     .then(function(res) {
       console.log(res);

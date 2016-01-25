@@ -1,11 +1,6 @@
 import React from 'react';
 import SearchInsta from './SearchInsta'
 
-// var height = {
-//   width: '100%',
-//   height: '40%',
-//   backgroundColor:'#FFA07A'
-// };
 var background = {
   'background': '-webkit-gradient(linear, left top, right top, from(#1a82f7), to(#2F2727))'
 }

@@ -198,26 +198,38 @@ app.listen(app.get('port'), function() {
 
 // OAuth1.0 - 3-legged server side flow (Twitter example)
 // step 1
-app.get('/search/:username', function(req, res) {
-  var username = req.params.username;  
-  var consumerKey = '0MBi9ezl2XwCEjlOvjJHxmZwL';
-  var consumerSecret = 'dCY7HuA1ZQIJ8kgFouezTgRe7FvluU17wihcf9Xu5IQXI2Yt4b';
-  var tokenSecret = '9w0Nze64uzct5siHlm3cUQxF99v5HhW57EOAbo82O6r1N';
-  var token = '4805863400-TzhaEcnNkAT57Vh6pBcZQwd9d98Usg1mYhSHCaT';
-  var oauth = { 
-    consumer_key: consumerKey, 
-    consumer_secret: consumerSecret, 
-    token:  token, 
-    token_secret: tokenSecret
-  };
+var consumerKey = '0MBi9ezl2XwCEjlOvjJHxmZwL';
+var consumerSecret = 'dCY7HuA1ZQIJ8kgFouezTgRe7FvluU17wihcf9Xu5IQXI2Yt4b';
+var tokenSecret = '9w0Nze64uzct5siHlm3cUQxF99v5HhW57EOAbo82O6r1N';
+var token = '4805863400-TzhaEcnNkAT57Vh6pBcZQwd9d98Usg1mYhSHCaT';
+var oauth = { 
+  consumer_key: consumerKey, 
+  consumer_secret: consumerSecret, 
+  token:  token, 
+  token_secret: tokenSecret
+};
+
+app.get('/user/:username', function(req, res) {
+  var username = req.params.username;
   var url = 'https://api.twitter.com/1.1/users/lookup.json';
   var q = { screen_name: username };
   request.get({url:url, oauth:oauth, qs:q, json:true}, function (e, r, user) {
-    console.log('server', user);
-    console.log('err', user.errors);
     res.json(user);
   })
 });
+
+app.get('/tweets/:username', function(req, res) {
+  var username = req.params.username;
+  var url = 'https://api.twitter.com/1.1/statuses/user_timeline.json';
+  var q = { screen_name: username, count: 10 };
+  console.log('oauth', oauth);
+
+  request.get({url:url, oauth:oauth, qs:q, json:true}, function (e, r, tweets) {
+    // console.log(tweets);
+    res.json(tweets);
+  })
+});
+
 // app.get('/search/:username', function(req, res) {
 //   var user = req.params.username;
 //   var token = '506650360.cc4b050.0584728c2fcc4bd2a99b09884786db4a';
