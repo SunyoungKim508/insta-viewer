@@ -15,7 +15,7 @@ module.exports = {
       },
       {
         test: /\.png?$/,
-        loader: 'url?limit=25000',
+        loader: 'url?limit=40000',
         query: { mimetype: 'image/png'}
       }
     ]

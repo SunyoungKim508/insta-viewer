@@ -34,17 +34,23 @@ class Tweets extends React.Component {
   render(){
     return (
       <div className="row" style={{color: 'black'}}>
-        <ul className="list-group">
+        <div className="col-md-2"></div>
+        <ul className="list-group col-md-8" style={{paddingTop: 30}}>
           {this.state.tweets.map((tweet, index) => (
-            <li className="list-group-item" key={index}>
-              {tweet.user.name && <p className="list-group-item">{tweet.user.name}</p>}
-              {tweet.user.screen_name && <p className="list-group-item">{tweet.user.screen_name}</p>}
-              {tweet.created_at && <p className="list-group-item">{tweet.created_at}</p>}
-              {tweet.text && <p className="list-group-item">{tweet.text}</p>}
-              {tweet.user.profile_image_url && <img style={{width:30, height:30}}src={'tweet.user.profile_image_url'} />}
+            <li className="list-group-item" key={index} style={{padding: 20}}>
+              {tweet.user.profile_image_url && <img src={tweet.user.profile_image_url} style={{width: 47, height: 47}} className="pull-left" />}
+              {tweet.user && 
+                <div style={{display: 'inline-block', paddingLeft: 20}}>
+                  <p style={{fontWeight: 600, fontSize: 20}}>{tweet.user.name}</p>
+                  <p style={{color: '#b6b6b6', marginTop: '-10'}}>@{tweet.user.screen_name}</p>
+                </div>}
+              {tweet && <img src={require("../img/logo.png")} style={{width: 47, height: 47}} className='pull-right'/>}
+              {tweet.text && <p style={{fontSize: 25, fontWeight: 300}}>{tweet.text}</p>}
+              {tweet.created_at && <p style={{color: '#b6b6b6', marginBottom: -5}}>{tweet.created_at.replace(/\+0000/, '')}</p>}
             </li>
           ))}
         </ul>
+        <div className="col-md-2"></div>
       </div>
     )
   }

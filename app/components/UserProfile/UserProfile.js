@@ -10,6 +10,7 @@ class UserProfile extends React.Component{
     var isPrivate = this.props.profile.protected;
     if (isPrivate) {
       // redirect to login page
+      this.props.history.pushState(null, "/login");
     } else {
       // change route to tweets
       console.log('change route to tweets');
@@ -17,20 +18,24 @@ class UserProfile extends React.Component{
       this.props.history.pushState(null, "/tweets/" + this.props.profile.screen_name);
     }
   }
+
   render() {
     let { profile } = this.props;
     return (
       <div>
         <div className="center-block">
-          { (profile.id === undefined) && <h3 className="text-center" style={{color: '#ff98f0', marginTop: 30, fontFamily: 'Lato', fontWeight: 300}}> No user matches for specified terms </h3> }
+          { (profile.id === undefined) && <h3 className="text-center" style={{color: '#AF8CDE', marginTop: 30, fontFamily: 'Lato', fontWeight: 300}}> No user matches for specified terms </h3> }
         </div>
         {profile.id && <div onClick={()=>this.handleClick()} className="center-block" style={{color: 'black'}}>
           <ul className="list-group" style={{marginTop: 30}}>
-            <li className="list-group-item" key={profile.id}>
-              {profile.profile_image_url && <img src={profile.profile_image_url} className="img-rounded img-responsive" style={{display: 'inline-block'}}/>}
-              {profile.id && <span style={{marginLeft: 30}}>ID: {profile.id}</span>}
-              {profile.screen_name && <p>@{profile.screen_name}</p>}
-              {profile.name && <p>Name: {profile.name}</p>}
+            <li className="list-group-item" key={profile.id} style={{paddingTop: 20}}>
+              {profile.profile_image_url && <img src={profile.profile_image_url} className="img-rounded pull-left"/>}
+              {profile && 
+                <div style={{display: 'inline-block', paddingLeft: 20}}>
+                  <p style={{fontWeight: 600, fontSize: 20}}>{profile.name}</p>
+                  <p style={{color: '#b6b6b6', marginTop: '-10'}}>@{profile.screen_name}</p>
+                </div>}
+              {profile.id && <span className="pull-right" style={{fontWeight: 300, fontSize: 20, paddingTop: 10}}>ID: {profile.id}</span>}
             </li>
           </ul>
         </div>}
