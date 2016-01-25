@@ -1,8 +1,7 @@
 import React from 'react'
 import Repos from './Github/Repos';
 import UserProfile from './Github/UserProfile';
-import Notes from './Notes/Notes';
-import { getGithubInfo, getRepos } from '../utils/helpers';
+import { getUserInfo } from '../utils/helpers';
 import Rebase from 're-base';
 
 const base = Rebase.createClass('https://github-note-taker.firebaseio.com/')
@@ -11,7 +10,6 @@ class Profile extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      notes: [],
       bio: {},
       repos: []
     }
@@ -33,19 +31,13 @@ class Profile extends React.Component {
       state: 'notes'
     });
 
-    getRepos(username)
+    getUserInfo(username)
       .then(function(data){
         console.log('profile.js', data);
         this.setState({
-          // bio: data.bio,
-          repos: data
+          bio: data
         })
       }.bind(this))
-  }
-  handleAddNote(newNote){
-    base.post(this.props.params.username, {
-      data: this.state.notes.concat([newNote])
-    })
   }
   render(){
     return (
@@ -55,12 +47,6 @@ class Profile extends React.Component {
         </div>
         <div className="col-md-4">
           <Repos username={this.props.params.username} repos={this.state.repos}/>
-        </div>
-        <div className="col-md-4">
-          <Notes
-            username={this.props.params.username}
-            notes={this.state.notes}
-            addNote={(newNote) => this.handleAddNote(newNote)} />
         </div>
       </div>
     )

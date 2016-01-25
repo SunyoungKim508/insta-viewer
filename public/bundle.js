@@ -24678,16 +24678,22 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	// var height = {
+	//   width: '100%',
+	//   height: '40%',
+	//   backgroundColor:'#FFA07A'
+	// };
+
 	var Main = function Main(_ref) {
 	  var children = _ref.children;
 	  var history = _ref.history;
 
 	  return _react2.default.createElement(
 	    'div',
-	    null,
+	    { className: 'container' },
 	    _react2.default.createElement(
 	      'div',
-	      { className: 'main-container', style: { backgroundColor: '#a4c5d6', marginTop: '-20' } },
+	      { className: 'main-container', style: { backgroundColor: '#FFA07A', marginTop: '-20' } },
 	      _react2.default.createElement('div', { className: 'col-xs-2' }),
 	      _react2.default.createElement(
 	        'div',
@@ -24698,7 +24704,7 @@
 	    ),
 	    _react2.default.createElement(
 	      'div',
-	      { className: 'container row', style: { display: 'block' } },
+	      { className: 'container row', style: { backgroundColor: 'red', display: 'block' } },
 	      children
 	    )
 	  );
@@ -24824,7 +24830,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.getRepos = getRepos;
+	exports.getUserInfo = getUserInfo;
 	exports.getGithubInfo = getGithubInfo;
 
 	var _axios = __webpack_require__(221);
@@ -24837,28 +24843,29 @@
 	//   return axios.get(`https://api.github.com/users/${username}/repos`);
 	// }
 
-	function getUserInfo(username) {
-	  return _axios2.default.get('https://api.github.com/users/' + username);
-	}
+	// function getUserInfo(username){
+	//   return axios.get(`https://api.github.com/users/${username}`);
+	// }
 
 	// user id
 	// https://api.instagram.com/v1/users/506650360
 
-	function getRepos(username) {
+	function getUserInfo(username) {
+	  console.log('going to server');
 	  return (0, _axios2.default)('/search/' + username)
-	  // .then((data) => {console.log('getRepos', data)};)
+	  // .then((data) => {console.log('getUser', data)};)
 	  .then(function (res) {
-	    console.log('getRepos', res.data);
+	    console.log('getUser', res.data);
 	    return res.data;
 	  }).catch(function (err) {
-	    console.log('getRepost', err);
+	    console.log('getUser', err);
 	  });
 	}
 
 	function getGithubInfo(username) {
-	  console.log('here!', getRepos(username));
-	  return _axios2.default.all([getRepos(username), getUserInfo(username)]).then(function (arr) {
-	    return { repos: data, bio: arr[1].data };
+	  console.log('here!', getUser(username));
+	  return _axios2.default.all([getUser(username), getUserInfo(username)]).then(function (arr) {
+	    return { repos: data, bio: arr[0] };
 	  }).catch(function (err) {
 	    return console.log(err);
 	  });
@@ -25986,13 +25993,9 @@
 
 	var _UserProfile2 = _interopRequireDefault(_UserProfile);
 
-	var _Notes = __webpack_require__(242);
-
-	var _Notes2 = _interopRequireDefault(_Notes);
-
 	var _helpers = __webpack_require__(220);
 
-	var _reBase = __webpack_require__(245);
+	var _reBase = __webpack_require__(242);
 
 	var _reBase2 = _interopRequireDefault(_reBase);
 
@@ -26015,7 +26018,6 @@
 	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Profile).call(this, props));
 
 	    _this.state = {
-	      notes: [],
 	      bio: {},
 	      repos: []
 	    };
@@ -26047,26 +26049,16 @@
 	        state: 'notes'
 	      });
 
-	      (0, _helpers.getRepos)(username).then(function (data) {
+	      (0, _helpers.getUserInfo)(username).then(function (data) {
 	        console.log('profile.js', data);
 	        this.setState({
-	          // bio: data.bio,
-	          repos: data
+	          bio: data
 	        });
 	      }.bind(this));
 	    }
 	  }, {
-	    key: 'handleAddNote',
-	    value: function handleAddNote(newNote) {
-	      base.post(this.props.params.username, {
-	        data: this.state.notes.concat([newNote])
-	      });
-	    }
-	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var _this2 = this;
-
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'row' },
@@ -26079,16 +26071,6 @@
 	          'div',
 	          { className: 'col-md-4' },
 	          _react2.default.createElement(_Repos2.default, { username: this.props.params.username, repos: this.state.repos })
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'col-md-4' },
-	          _react2.default.createElement(_Notes2.default, {
-	            username: this.props.params.username,
-	            notes: this.state.notes,
-	            addNote: function addNote(newNote) {
-	              return _this2.handleAddNote(newNote);
-	            } })
 	        )
 	      );
 	    }
@@ -26130,10 +26112,11 @@
 	      "ul",
 	      { className: "list-group" },
 	      repos.map(function (repo, index) {
+	        console.log(repo);
 	        return _react2.default.createElement(
 	          "li",
 	          { className: "list-group-item", key: repo.id },
-	          repo.profile_picture && _react2.default.createElement("img", { src: repo.profile_picture, className: "img-rounded img-responsive" }),
+	          repo.profile_image_url && _react2.default.createElement("img", { src: repo.profile_image_url, className: "img-rounded img-responsive" }),
 	          repo.id && _react2.default.createElement(
 	            "h4",
 	            null,
@@ -26143,15 +26126,15 @@
 	              repo.id
 	            )
 	          ),
-	          repo.username && _react2.default.createElement(
+	          repo.screen_name && _react2.default.createElement(
 	            "p",
 	            null,
-	            repo.username
+	            repo.screen_name
 	          ),
-	          repo.full_name && _react2.default.createElement(
+	          repo.name && _react2.default.createElement(
 	            "p",
 	            null,
-	            repo.full_name
+	            repo.name
 	          )
 	        );
 	      })
@@ -26188,11 +26171,11 @@
 	  return _react2.default.createElement(
 	    "div",
 	    null,
-	    bio.avatar_url && _react2.default.createElement(
+	    bio.profile_image_url && _react2.default.createElement(
 	      "li",
 	      { className: "list-group-item" },
 	      " ",
-	      _react2.default.createElement("img", { src: bio.avatar_url, className: "img-rounded img-responsive" })
+	      _react2.default.createElement("img", { src: bio.profile_image_url, className: "img-rounded img-responsive" })
 	    ),
 	    bio.name && _react2.default.createElement(
 	      "li",
@@ -26200,64 +26183,27 @@
 	      "Name: ",
 	      bio.name
 	    ),
-	    bio.login && _react2.default.createElement(
+	    bio.id && _react2.default.createElement(
 	      "li",
 	      { className: "list-group-item" },
 	      "Username: ",
-	      bio.login
+	      bio.id
 	    ),
-	    bio.email && _react2.default.createElement(
+	    bio.screen_name && _react2.default.createElement(
 	      "li",
 	      { className: "list-group-item" },
-	      "Email: ",
-	      bio.email
+	      bio.screen_name
 	    ),
-	    bio.location && _react2.default.createElement(
+	    bio.protected && _react2.default.createElement(
 	      "li",
 	      { className: "list-group-item" },
-	      "Location: ",
-	      bio.location
-	    ),
-	    bio.company && _react2.default.createElement(
-	      "li",
-	      { className: "list-group-item" },
-	      "Company: ",
-	      bio.company
-	    ),
-	    bio.followers && _react2.default.createElement(
-	      "li",
-	      { className: "list-group-item" },
-	      "Followers: ",
-	      bio.followers
-	    ),
-	    bio.following && _react2.default.createElement(
-	      "li",
-	      { className: "list-group-item" },
-	      "Following: ",
-	      bio.following
-	    ),
-	    bio.public_repos && _react2.default.createElement(
-	      "li",
-	      { className: "list-group-item" },
-	      "Public Repos: ",
-	      bio.public_repos
-	    ),
-	    bio.blog && _react2.default.createElement(
-	      "li",
-	      { className: "list-group-item" },
-	      "Blog: ",
-	      _react2.default.createElement(
-	        "a",
-	        { href: bio.blog },
-	        " ",
-	        bio.blog
-	      )
+	      bio.protected
 	    )
 	  );
 	};
 
 	UserProfile.propTypes = {
-	  username: _react2.default.PropTypes.string.isRequired,
+	  user: _react2.default.PropTypes.string.isRequired,
 	  bio: _react2.default.PropTypes.object.isRequired
 	};
 
@@ -26267,188 +26213,17 @@
 /* 242 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	module.exports = __webpack_require__(243);
 
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
 
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _NotesList = __webpack_require__(243);
-
-	var _NotesList2 = _interopRequireDefault(_NotesList);
-
-	var _AddNote = __webpack_require__(244);
-
-	var _AddNote2 = _interopRequireDefault(_AddNote);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var Notes = function Notes(_ref) {
-	  var username = _ref.username;
-	  var notes = _ref.notes;
-	  var addNote = _ref.addNote;
-
-	  return _react2.default.createElement(
-	    'div',
-	    null,
-	    _react2.default.createElement(
-	      'h3',
-	      null,
-	      ' Notes for ',
-	      username,
-	      ' '
-	    ),
-	    _react2.default.createElement(_AddNote2.default, { username: username, addNote: addNote }),
-	    _react2.default.createElement(_NotesList2.default, { notes: notes })
-	  );
-	};
-
-	Notes.propTypes = {
-	  username: _react2.default.PropTypes.string.isRequired,
-	  notes: _react2.default.PropTypes.array.isRequired,
-	  addNote: _react2.default.PropTypes.func.isRequired
-	};
-
-	exports.default = Notes;
 
 /***/ },
 /* 243 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var NotesList = function NotesList(_ref) {
-	  var notes = _ref.notes;
-
-	  return _react2.default.createElement(
-	    "ul",
-	    { className: "list-group" },
-	    notes.map(function (note, index) {
-	      return _react2.default.createElement(
-	        "li",
-	        { className: "list-group-item", key: index },
-	        note
-	      );
-	    })
-	  );
-	};
-
-	NotesList.propTypes = {
-	  notes: _react2.default.PropTypes.array.isRequired
-	};
-
-	exports.default = NotesList;
-
-/***/ },
-/* 244 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var AddNote = function (_React$Component) {
-	  _inherits(AddNote, _React$Component);
-
-	  function AddNote() {
-	    _classCallCheck(this, AddNote);
-
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(AddNote).apply(this, arguments));
-	  }
-
-	  _createClass(AddNote, [{
-	    key: 'handleSubmit',
-	    value: function handleSubmit() {
-	      var newNote = this.note.value;
-	      this.note.value = '';
-	      this.props.addNote(newNote);
-	    }
-	  }, {
-	    key: 'setRef',
-	    value: function setRef(ref) {
-	      this.note = ref;
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      var _this2 = this;
-
-	      return _react2.default.createElement(
-	        'div',
-	        { className: 'input-group' },
-	        _react2.default.createElement('input', { type: 'text', className: 'form-control', placeholder: 'Add New Note', ref: function ref(_ref) {
-	            return _this2.setRef(_ref);
-	          } }),
-	        _react2.default.createElement(
-	          'span',
-	          { className: 'input-group-btn' },
-	          _react2.default.createElement(
-	            'button',
-	            { className: 'btn btn-default', type: 'button', onClick: function onClick() {
-	                return _this2.handleSubmit();
-	              } },
-	            'Submit'
-	          )
-	        )
-	      );
-	    }
-	  }]);
-
-	  return AddNote;
-	}(_react2.default.Component);
-
-	AddNote.propTypes = {
-	  username: _react2.default.PropTypes.string.isRequired,
-	  addNote: _react2.default.PropTypes.func.isRequired
-	};
-
-	exports.default = AddNote;
-
-/***/ },
-/* 245 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__(246);
-
-
-
-/***/ },
-/* 246 */
-/***/ function(module, exports, __webpack_require__) {
-
 	(function webpackUniversalModuleDefinition(root, factory) {
 		if(true)
-			module.exports = factory(__webpack_require__(247));
+			module.exports = factory(__webpack_require__(244));
 		else if(typeof define === 'function' && define.amd)
 			define(["firebase"], factory);
 		else {
@@ -26978,7 +26753,7 @@
 	;
 
 /***/ },
-/* 247 */
+/* 244 */
 /***/ function(module, exports) {
 
 	/*! @license Firebase v2.4.0

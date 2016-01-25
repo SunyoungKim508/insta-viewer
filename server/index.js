@@ -9,6 +9,9 @@ var cors = require('cors')
 var request = require('request');
 var User = require('../db/models/user');
 var mongoose = require('mongoose');
+var oauthSignature = require('oauth-signature');
+var n = require('nonce')();
+var qs = require('querystring');
 
 var mongoURI = 'mongodb://admin:admin12@ds049925.mongolab.com:49925/twitter-viewer';
 mongoose.connect(mongoURI);
@@ -124,7 +127,8 @@ passport.deserializeUser(function(obj, done) {
 });
 
 app.get('/', function(req, res){
-  res.render('index', { user: req.user });
+
+  // res.render('index', { user: req.user });
 });
 
 app.get('/account', ensureAuthenticated, function(req, res){
@@ -139,11 +143,21 @@ app.get('/auth/twitter',
   passport.authenticate('twitter'));
 
 app.get('/auth/twitter/callback', 
-  passport.authenticate('twitter', { failureRedirect: '/login', successRedirect: '/' }),
+  passport.authenticate('twitter', { failureRedirect: '/login' }),
   function(req, res) {
     // Successful authentication, redirect home.
+    console.log('get /');
+    /*
+     { __v: 0,
+      photo: 'https://pbs.twimg.com/profile_images/691109361507135489/cdP5dU-w_normal.jpg',
+      fullname: 'Sunyoung Kim',
+      username: 'stella_kim58',
+      twitterId: '4805863400',
+      _id: 56a4774fa72629347724ba0c }
+      */
+    console.log(req.session.passport.user);
     console.log('YO WORK');
-    res.redirect('/');
+    res.redirect('/', {user: req.session.passport.user});
   });
 
 
@@ -156,36 +170,83 @@ app.listen(app.get('port'), function() {
   console.log('It is working!');
 });
 
+
+// Search
+// 'https://api.twitter.com/1.1/users/lookup.json?screen_name=sunyoung'
+// app.get('/search/:username', function(req, res) {
+//   var httpMethod = 'GET';
+//   var username = req.params.username;
+//   var url = 'https://api.twitter.com/1.1/users/lookup.json?';
+//   var parameters = {
+//     screen_name: username,
+//     oauth_consumer_key : '0MBi9ezl2XwCEjlOvjJHxmZwL',
+//     oauth_token : '4805863400-TzhaEcnNkAT57Vh6pBcZQwd9d98Usg1mYhSHCaT',
+//     oauth_nonce : n(),
+//     oauth_timestamp : +new Date,
+//     oauth_signature_method : 'HMAC-SHA1',
+//     oauth_version : '1.0'
+//   };
+//   var consumerSecret = 'dCY7HuA1ZQIJ8kgFouezTgRe7FvluU17wihcf9Xu5IQXI2Yt4b';
+//   var tokenSecret = '9w0Nze64uzct5siHlm3cUQxF99v5HhW57EOAbo82O6r1N';
+//   // generates a RFC 3986 encoded, BASE64 encoded HMAC-SHA1 hash
+//   var encodedSignature = oauthSignature.generate(httpMethod, url, parameters, consumerSecret, tokenSecret);
+//   // generates a BASE64 encode HMAC-SHA1 hash
+//   var signature = oauthSignature.generate(httpMethod, url, parameters, consumerSecret, tokenSecret,{ encodeSignature: false});
+//   console.log(encodedSignature);
+//   console.log(signature);
+// });
+
+// OAuth1.0 - 3-legged server side flow (Twitter example)
+// step 1
 app.get('/search/:username', function(req, res) {
-  var user = req.params.username;
-  var token = '506650360.cc4b050.0584728c2fcc4bd2a99b09884786db4a';
-  // var url = 'https://api.instagram.com/v1/users/'+user+'/?access_token=506650360.cc4b050.0584728c2fcc4bd2a99b09884786db4a&scope=public_content';
-  var url = 'https://api.instagram.com/v1/users/search?q='+user+'&access_token=' + token;
-  console.log(url);
-  var options = {
-    url: url,
-    json: true,
-    headers: {
-      'User-Agent': 'request',
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
-      'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-      'Content-Type': 'application/json',
-      'Accept': 'application/json'
-    }
+  var username = req.params.username;  
+  var consumerKey = '0MBi9ezl2XwCEjlOvjJHxmZwL';
+  var consumerSecret = 'dCY7HuA1ZQIJ8kgFouezTgRe7FvluU17wihcf9Xu5IQXI2Yt4b';
+  var tokenSecret = '9w0Nze64uzct5siHlm3cUQxF99v5HhW57EOAbo82O6r1N';
+  var token = '4805863400-TzhaEcnNkAT57Vh6pBcZQwd9d98Usg1mYhSHCaT';
+  var oauth = { 
+    consumer_key: consumerKey, 
+    consumer_secret: consumerSecret, 
+    token:  token, 
+    token_secret: tokenSecret
   };
-
-  function callback(error, response, body) {
-    if (!error) {
-      console.log('hi', JSON.stringify(body.data)); // Print the google web page.
-      res.json(body.data);
-    } else {
-      console.log('yo', error);
-    }
-  }
-
-  request(options, callback);
+  var url = 'https://api.twitter.com/1.1/users/lookup.json';
+  var q = { screen_name: username };
+  request.get({url:url, oauth:oauth, qs:q, json:true}, function (e, r, user) {
+    console.log('server', user);
+    res.json(user);
+  })
 });
+// app.get('/search/:username', function(req, res) {
+//   var user = req.params.username;
+//   var token = '506650360.cc4b050.0584728c2fcc4bd2a99b09884786db4a';
+//   // var url = 'https://api.instagram.com/v1/users/'+user+'/?access_token=506650360.cc4b050.0584728c2fcc4bd2a99b09884786db4a&scope=public_content';
+//   var url = 'https://api.instagram.com/v1/users/search?q='+user+'&access_token=' + token;
+//   console.log(url);
+//   var options = {
+//     url: url,
+//     json: true,
+//     headers: {
+//       'User-Agent': 'request',
+//       'Access-Control-Allow-Origin': '*',
+//       'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
+//       'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+//       'Content-Type': 'application/json',
+//       'Accept': 'application/json'
+//     }
+//   };
+
+//   function callback(error, response, body) {
+//     if (!error) {
+//       console.log('hi', JSON.stringify(body.data)); // Print the google web page.
+//       res.json(body.data);
+//     } else {
+//       console.log('yo', error);
+//     }
+//   }
+
+//   request(options, callback);
+// });
 
 // Simple route middleware to ensure user is authenticated.
 //   Use this route middleware on any resource that needs to be protected.  If
