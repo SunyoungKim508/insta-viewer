@@ -42,7 +42,9 @@
     "redux-actions": "^0.9.0",
     "redux-simple-router": "^2.0.2",
     "redux-thunk": "^1.0.0",
-    "request": "^2.67.0"
+    "request": "^2.67.0",
+    "url-loader": "^0.5.7",
+    "webpack-loader": "0.0.1"
   },
   "devDependencies": {
     "babel-core": "^6.3.13",

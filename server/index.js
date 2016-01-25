@@ -214,6 +214,7 @@ app.get('/search/:username', function(req, res) {
   var q = { screen_name: username };
   request.get({url:url, oauth:oauth, qs:q, json:true}, function (e, r, user) {
     console.log('server', user);
+    console.log('err', user.errors);
     res.json(user);
   })
 });
