@@ -79,6 +79,8 @@ passport.use(new TwitterStrategy({
     callbackURL: "http://localhost:3000/auth/twitter/callback"
   },
   function(token, tokenSecret, profile, done) {
+    console.log('token', token);
+    console.log('tokenSecret', tokenSecret);
     var userObj = {
       twitterId: profile.id,
       username: profile.username,

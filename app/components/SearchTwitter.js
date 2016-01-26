@@ -1,7 +1,7 @@
 import React from 'react';
 import Router from 'react-router';
 
-class SearchInsta extends React.Component {
+class SearchTwitter extends React.Component {
   getRef(ref){
     this.usernameRef = ref;
   }
@@ -28,8 +28,8 @@ class SearchInsta extends React.Component {
   }
 }
 
-SearchInsta.PropTypes = {
+SearchTwitter.PropTypes = {
   history: React.PropTypes.object.isRequired
 }
 
-export default SearchInsta;
+export default SearchTwitter;

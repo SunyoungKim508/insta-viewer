@@ -24682,9 +24682,9 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _SearchInsta = __webpack_require__(219);
+	var _SearchTwitter = __webpack_require__(219);
 
-	var _SearchInsta2 = _interopRequireDefault(_SearchInsta);
+	var _SearchTwitter2 = _interopRequireDefault(_SearchTwitter);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -24726,7 +24726,7 @@
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'col-xs-8', style: { paddingTop: 55, paddingBottom: 10 } },
-	          _react2.default.createElement(_SearchInsta2.default, { history: history })
+	          _react2.default.createElement(_SearchTwitter2.default, { history: history })
 	        ),
 	        _react2.default.createElement('div', { className: 'col-xs-2' })
 	      )
@@ -24769,16 +24769,16 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var SearchInsta = function (_React$Component) {
-	  _inherits(SearchInsta, _React$Component);
+	var SearchTwitter = function (_React$Component) {
+	  _inherits(SearchTwitter, _React$Component);
 
-	  function SearchInsta() {
-	    _classCallCheck(this, SearchInsta);
+	  function SearchTwitter() {
+	    _classCallCheck(this, SearchTwitter);
 
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(SearchInsta).apply(this, arguments));
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(SearchTwitter).apply(this, arguments));
 	  }
 
-	  _createClass(SearchInsta, [{
+	  _createClass(SearchTwitter, [{
 	    key: 'getRef',
 	    value: function getRef(ref) {
 	      this.usernameRef = ref;
@@ -24826,14 +24826,14 @@
 	    }
 	  }]);
 
-	  return SearchInsta;
+	  return SearchTwitter;
 	}(_react2.default.Component);
 
-	SearchInsta.PropTypes = {
+	SearchTwitter.PropTypes = {
 	  history: _react2.default.PropTypes.object.isRequired
 	};
 
-	exports.default = SearchInsta;
+	exports.default = SearchTwitter;
 
 /***/ },
 /* 220 */
@@ -24871,7 +24871,16 @@
 	  return _react2.default.createElement(
 	    'h4',
 	    { className: 'text-center vertical-center center-block', style: styles },
-	    'Explore Twitter :D'
+	    'Explore Twitter :D',
+	    _react2.default.createElement(
+	      'button',
+	      { className: 'btn btn-primary' },
+	      _react2.default.createElement(
+	        'a',
+	        { href: '/auth/twitter' },
+	        'Login'
+	      )
+	    )
 	  );
 	}
 
@@ -24996,10 +25005,16 @@
 	var UserProfile = function (_React$Component) {
 	  _inherits(UserProfile, _React$Component);
 
-	  function UserProfile() {
+	  function UserProfile(props) {
 	    _classCallCheck(this, UserProfile);
 
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(UserProfile).apply(this, arguments));
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(UserProfile).call(this, props));
+
+	    _this.state = {
+	      init: true
+	    };
+	    // console.log('profile.js router', this.props.history);
+	    return _this;
 	  }
 
 	  _createClass(UserProfile, [{
@@ -25007,6 +25022,11 @@
 	    value: function componentWillReceiveProps(nextProps) {
 	      console.log('newProps', nextProps);
 	      // this.init(nextProps.params.username);
+	      if (this.state.init) {
+	        this.setState({
+	          init: false
+	        });
+	      }
 	    }
 	  }, {
 	    key: 'handleClick',
@@ -25030,13 +25050,14 @@
 
 	      var profile = this.props.profile;
 
+	      console.log('id', profile.id);
 	      return _react2.default.createElement(
 	        'div',
 	        null,
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'center-block' },
-	          profile.id === undefined && _react2.default.createElement(
+	          !this.state.init && profile.id === undefined && _react2.default.createElement(
 	            'h3',
 	            { className: 'text-center', style: { color: '#AF8CDE', marginTop: 30, fontFamily: 'Lato', fontWeight: 300 } },
 	            ' No user matches for specified terms '

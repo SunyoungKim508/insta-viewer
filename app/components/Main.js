@@ -1,5 +1,5 @@
 import React from 'react';
-import SearchInsta from './SearchInsta'
+import SearchTwitter from './SearchTwitter'
 
 var background = {
   'background': '-webkit-gradient(linear, left top, right top, from(#1a82f7), to(#2F2727))'
@@ -17,7 +17,7 @@ const Main = ({children, history}) => {
         <div className="container" style={{marginTop: '-20'}}>
           <div className="col-xs-2"></div>
           <div className="col-xs-8" style={{paddingTop: 55, paddingBottom: 10}}>
-            <SearchInsta history={history}/>
+            <SearchTwitter history={history}/>
           </div>
           <div className="col-xs-2"></div>
         </div>

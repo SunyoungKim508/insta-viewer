@@ -13,6 +13,7 @@ export default function Home () {
   return (
     <h4 className="text-center vertical-center center-block" style={styles} >
       Explore Twitter :D
+      <button className="btn btn-primary"><a href="/auth/twitter">Login</a></button>
     </h4>
   )
 

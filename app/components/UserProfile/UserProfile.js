@@ -1,9 +1,21 @@
 import React from 'react'
 
 class UserProfile extends React.Component{
+  constructor(props){
+    super(props);
+    this.state = {
+      init: true
+    }
+    // console.log('profile.js router', this.props.history);
+  }
   componentWillReceiveProps(nextProps){
     console.log('newProps', nextProps);
     // this.init(nextProps.params.username);
+    if (this.state.init) {
+      this.setState({
+        init: false
+      });
+    }
   }
   handleClick() {
     console.log(this.props.profile.protected);
@@ -21,10 +33,11 @@ class UserProfile extends React.Component{
 
   render() {
     let { profile } = this.props;
+    console.log('id', profile.id);
     return (
       <div>
         <div className="center-block">
-          { (profile.id === undefined) && <h3 className="text-center" style={{color: '#AF8CDE', marginTop: 30, fontFamily: 'Lato', fontWeight: 300}}> No user matches for specified terms </h3> }
+          { (!this.state.init && profile.id === undefined) && <h3 className="text-center" style={{color: '#AF8CDE', marginTop: 30, fontFamily: 'Lato', fontWeight: 300}}> No user matches for specified terms </h3> }
         </div>
         {profile.id && <div onClick={()=>this.handleClick()} className="center-block" style={{color: 'black'}}>
           <ul className="list-group" style={{marginTop: 30}}>
