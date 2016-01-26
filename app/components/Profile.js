@@ -8,7 +8,6 @@ class Profile extends React.Component {
     this.state = {
       profile: {}
     }
-    console.log('profile.js router', this.props.history);
   }
   componentDidMount(){
     this.init(this.props.params.username)
@@ -16,16 +15,11 @@ class Profile extends React.Component {
   componentWillReceiveProps(nextProps){
     this.init(nextProps.params.username);
   }
-  componentWillUnmount(){
-  }
-  init(username){
-    console.log(username);
 
+  init(username){
     getUserInfo(username)
       .then(function(data){
-        console.log('got data', data);
         data = (data === undefined) ? {} : data;
-        console.log('profile.js', data);
         this.setState({
           profile: data
         })

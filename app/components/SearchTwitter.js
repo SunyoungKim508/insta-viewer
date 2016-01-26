@@ -6,13 +6,11 @@ class SearchTwitter extends React.Component {
     this.usernameRef = ref;
   }
   handleSubmit(){
-    console.log('clicked submit');
     const username = this.usernameRef.value;
     this.usernameRef.value = '';
     this.props.history.pushState(null, "/profile/" + username);
   }
   render(){
-        // <button className="btn btn-primary"><a href="/auth/twitter">Login</a></button>
     return (
       <div className="col-sm-12">
         <form onSubmit={() => this.handleSubmit()}>

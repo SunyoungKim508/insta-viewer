@@ -14,29 +14,27 @@ class Tweets extends React.Component {
   componentWillReceiveProps(nextProps){
     this.init(nextProps.params.username);
   }
-  componentWillUnmount(){
-  }
-  init(username){
-    console.log(username);
 
+  init(username){
     getTweets(username)
       .then(function(data){
-        console.log('got data', data);
         data = (data === undefined) ? {} : data;
-        console.log('Tweets.js', data);
-        this.setState({
-          tweets: data
-        })
+        if (data.error) {
+          this.props.history.pushState(null, "/login");
+        } else {
+          this.setState({
+            tweets: data
+          })
+        }
       }.bind(this))
   }
-  // request 10 most tweets
       
   render(){
     return (
       <div className="row" style={{color: 'black'}}>
         <div className="col-md-2"></div>
         <ul className="list-group col-md-8" style={{paddingTop: 30}}>
-          {this.state.tweets.map((tweet, index) => (
+          {!this.state.tweets.error && this.state.tweets.map((tweet, index) => (
             <li className="list-group-item" key={index} style={{padding: 20}}>
               {tweet.user.profile_image_url && <img src={tweet.user.profile_image_url} style={{width: 47, height: 47}} className="pull-left" />}
               {tweet.user && 

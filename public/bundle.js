@@ -24674,6 +24674,8 @@
 
 	'use strict';
 
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
@@ -24688,56 +24690,94 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 	var background = {
-	  'background': '-webkit-gradient(linear, left top, right top, from(#1a82f7), to(#2F2727))'
+	  background: '-webkit-gradient(linear, left top, right top, from(#99aaff), to(#7ed4e1))',
+	  width: '100%',
+	  marginTop: '-20'
 	};
 
-	var Main = function Main(_ref) {
-	  var children = _ref.children;
-	  var history = _ref.history;
+	var Main = function (_React$Component) {
+	  _inherits(Main, _React$Component);
 
-	  return _react2.default.createElement(
-	    'div',
-	    { style: { 'fontFamily': 'Lato', color: 'white' } },
-	    _react2.default.createElement(
-	      'div',
-	      { style: { width: '100%', marginTop: '-20', background: '-webkit-gradient(linear, left top, right top, from(#99aaff), to(#7ed4e1))' } },
-	      _react2.default.createElement('div', { style: { height: 70, width: 20 } }),
-	      _react2.default.createElement('img', { src: __webpack_require__(220), className: 'center-block', style: { width: 150, height: 150 } }),
-	      _react2.default.createElement(
-	        'p',
-	        { className: 'text-center', style: { 'fontWeight': 300, 'fontSize': 35, paddingTop: 30 } },
-	        'Twitter Viewer'
-	      ),
-	      _react2.default.createElement(
-	        'p',
-	        { className: 'text-center', style: { 'fontSize': 30, 'fontWeight': 100 } },
-	        'Allows searching for Instagram accounts by username/handle'
-	      ),
-	      _react2.default.createElement(
-	        'p',
-	        { className: 'text-center', style: { 'fontSize': 30, 'marginTop': '-20', 'fontWeight': 100 } },
-	        'Allows a user to click on a search result, thus showing them that users most recent 10 photos'
-	      ),
-	      _react2.default.createElement(
+	  function Main() {
+	    _classCallCheck(this, Main);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Main).apply(this, arguments));
+	  }
+
+	  _createClass(Main, [{
+	    key: 'goToHome',
+	    value: function goToHome() {
+	      this.props.history.pushState(null, "/");
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var _this2 = this;
+
+	      return _react2.default.createElement(
 	        'div',
-	        { className: 'container', style: { marginTop: '-20' } },
-	        _react2.default.createElement('div', { className: 'col-xs-2' }),
+	        { style: { 'fontFamily': 'Lato', color: 'white' } },
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'col-xs-8', style: { paddingTop: 55, paddingBottom: 10 } },
-	          _react2.default.createElement(_SearchTwitter2.default, { history: history })
+	          { style: background },
+	          _react2.default.createElement(
+	            'div',
+	            { style: { marginTop: 20, paddingTop: 5, marginLeft: 10 } },
+	            _react2.default.createElement(
+	              'a',
+	              { href: '/logout', style: { textDecoration: 'none', color: '#f9ffd8', fontSize: 20, fontWeight: 300 } },
+	              'Log Out'
+	            )
+	          ),
+	          _react2.default.createElement('div', { style: { height: 70, width: 20 } }),
+	          _react2.default.createElement('img', { src: __webpack_require__(220), onClick: function onClick() {
+	              return _this2.goToHome();
+	            }, className: 'center-block', style: { width: 150, height: 150 } }),
+	          _react2.default.createElement(
+	            'p',
+	            { className: 'text-center', style: { 'fontWeight': 300, 'fontSize': 35, paddingTop: 30 } },
+	            'Twitter Viewer'
+	          ),
+	          _react2.default.createElement(
+	            'p',
+	            { className: 'text-center', style: { 'fontSize': 30, 'fontWeight': 100 } },
+	            'Allows searching for Instagram accounts by username/handle'
+	          ),
+	          _react2.default.createElement(
+	            'p',
+	            { className: 'text-center', style: { 'fontSize': 30, 'marginTop': '-20', 'fontWeight': 100 } },
+	            'Allows a user to click on a search result, thus showing them that users most recent 10 photos'
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'container', style: { marginTop: '-20' } },
+	            _react2.default.createElement('div', { className: 'col-xs-2' }),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'col-xs-8', style: { paddingTop: 55, paddingBottom: 10 } },
+	              _react2.default.createElement(_SearchTwitter2.default, { history: this.props.history })
+	            ),
+	            _react2.default.createElement('div', { className: 'col-xs-2' })
+	          )
 	        ),
-	        _react2.default.createElement('div', { className: 'col-xs-2' })
-	      )
-	    ),
-	    _react2.default.createElement(
-	      'div',
-	      { className: 'container' },
-	      children
-	    )
-	  );
-	};
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'container' },
+	          this.props.children
+	        )
+	      );
+	    }
+	  }]);
+
+	  return Main;
+	}(_react2.default.Component);
 
 	exports.default = Main;
 
@@ -24786,7 +24826,6 @@
 	  }, {
 	    key: 'handleSubmit',
 	    value: function handleSubmit() {
-	      console.log('clicked submit');
 	      var username = this.usernameRef.value;
 	      this.usernameRef.value = '';
 	      this.props.history.pushState(null, "/profile/" + username);
@@ -24796,7 +24835,6 @@
 	    value: function render() {
 	      var _this2 = this;
 
-	      // <button className="btn btn-primary"><a href="/auth/twitter">Login</a></button>
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'col-sm-12' },
@@ -24871,15 +24909,11 @@
 	  return _react2.default.createElement(
 	    'h4',
 	    { className: 'text-center vertical-center center-block', style: styles },
-	    'Explore Twitter :D',
+	    _react2.default.createElement('i', { className: 'ion-ios-search', style: { fontSize: 60 } }),
 	    _react2.default.createElement(
-	      'button',
-	      { className: 'btn btn-primary' },
-	      _react2.default.createElement(
-	        'a',
-	        { href: '/auth/twitter' },
-	        'Login'
-	      )
+	      'p',
+	      null,
+	      'Search With Twitter Viewer'
 	    )
 	  );
 	}
@@ -24925,7 +24959,6 @@
 	    _this.state = {
 	      profile: {}
 	    };
-	    console.log('profile.js router', _this.props.history);
 	    return _this;
 	  }
 
@@ -24940,17 +24973,10 @@
 	      this.init(nextProps.params.username);
 	    }
 	  }, {
-	    key: 'componentWillUnmount',
-	    value: function componentWillUnmount() {}
-	  }, {
 	    key: 'init',
 	    value: function init(username) {
-	      console.log(username);
-
 	      (0, _helpers.getUserInfo)(username).then(function (data) {
-	        console.log('got data', data);
 	        data = data === undefined ? {} : data;
-	        console.log('profile.js', data);
 	        this.setState({
 	          profile: data
 	        });
@@ -24982,7 +25008,7 @@
 /* 223 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -25013,15 +25039,12 @@
 	    _this.state = {
 	      init: true
 	    };
-	    // console.log('profile.js router', this.props.history);
 	    return _this;
 	  }
 
 	  _createClass(UserProfile, [{
-	    key: 'componentWillReceiveProps',
+	    key: "componentWillReceiveProps",
 	    value: function componentWillReceiveProps(nextProps) {
-	      console.log('newProps', nextProps);
-	      // this.init(nextProps.params.username);
 	      if (this.state.init) {
 	        this.setState({
 	          init: false
@@ -25029,71 +25052,64 @@
 	      }
 	    }
 	  }, {
-	    key: 'handleClick',
+	    key: "handleClick",
 	    value: function handleClick() {
-	      console.log(this.props.profile.protected);
-	      var isPrivate = this.props.profile.protected;
-	      if (isPrivate) {
-	        // redirect to login page
-	        this.props.history.pushState(null, "/login");
-	      } else {
-	        // change route to tweets
-	        console.log('change route to tweets');
-	        console.log(this.props.history);
-	        this.props.history.pushState(null, "/tweets/" + this.props.profile.screen_name);
-	      }
+	      this.props.history.pushState(null, "/tweets/" + this.props.profile.screen_name);
 	    }
 	  }, {
-	    key: 'render',
+	    key: "render",
 	    value: function render() {
 	      var _this2 = this;
 
 	      var profile = this.props.profile;
 
-	      console.log('id', profile.id);
 	      return _react2.default.createElement(
-	        'div',
+	        "div",
 	        null,
 	        _react2.default.createElement(
-	          'div',
-	          { className: 'center-block' },
+	          "div",
+	          { className: "center-block" },
 	          !this.state.init && profile.id === undefined && _react2.default.createElement(
-	            'h3',
-	            { className: 'text-center', style: { color: '#AF8CDE', marginTop: 30, fontFamily: 'Lato', fontWeight: 300 } },
-	            ' No user matches for specified terms '
+	            "div",
+	            { className: "alert alert-danger", style: { marginTop: 50 }, role: "alert" },
+	            _react2.default.createElement(
+	              "p",
+	              { style: { fontSize: 20, fontFamily: 'Lato', fontWeight: 300 } },
+	              "No user matches for specified terms"
+	            )
 	          )
 	        ),
 	        profile.id && _react2.default.createElement(
-	          'div',
+	          "div",
 	          { onClick: function onClick() {
 	              return _this2.handleClick();
-	            }, className: 'center-block', style: { color: 'black' } },
+	            }, className: "center-block", style: { color: 'black' } },
 	          _react2.default.createElement(
-	            'ul',
-	            { className: 'list-group', style: { marginTop: 30 } },
+	            "ul",
+	            { className: "list-group", style: { marginTop: 30 } },
 	            _react2.default.createElement(
-	              'li',
-	              { className: 'list-group-item', key: profile.id, style: { paddingTop: 20 } },
-	              profile.profile_image_url && _react2.default.createElement('img', { src: profile.profile_image_url, className: 'img-rounded pull-left' }),
+	              "li",
+	              { className: "list-group-item", key: profile.id, style: { paddingTop: 20 } },
+	              profile.profile_image_url && _react2.default.createElement("img", { src: profile.profile_image_url, className: "img-rounded pull-left" }),
 	              profile && _react2.default.createElement(
-	                'div',
+	                "div",
 	                { style: { display: 'inline-block', paddingLeft: 20 } },
 	                _react2.default.createElement(
-	                  'p',
+	                  "p",
 	                  { style: { fontWeight: 600, fontSize: 20 } },
 	                  profile.name
 	                ),
 	                _react2.default.createElement(
-	                  'p',
+	                  "p",
 	                  { style: { color: '#b6b6b6', marginTop: '-10' } },
-	                  '@',
+	                  "@",
 	                  profile.screen_name
 	                )
 	              ),
 	              profile.id && _react2.default.createElement(
-	                'span',
-	                { className: 'pull-right', style: { fontWeight: 300, fontSize: 20, paddingTop: 10 } },
-	                'ID: ',
+	                "span",
+	                { className: "pull-right", style: { fontWeight: 300, fontSize: 20, paddingTop: 10 } },
+	                "ID: ",
 	                profile.id
 	              )
 	            )
@@ -25131,12 +25147,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	// function getRepos(username){
-	//   return axios.get(`https://api.github.com/users/${username}/repos`);
-	// }
-
 	function getTweets(username) {
-	  console.log('going to server from getTweets');
 	  return (0, _axios2.default)('/tweets/' + username).then(function (res) {
 	    return res.data;
 	  }).catch(function (err) {
@@ -25144,28 +25155,13 @@
 	  });
 	}
 
-	// user id
-	// https://api.instagram.com/v1/users/506650360
-
 	function getUserInfo(username) {
-	  console.log('going to server');
-	  return (0, _axios2.default)('/user/' + username)
-	  // .then((data) => {console.log('getUser', data)};)
-	  .then(function (res) {
-	    console.log(res);
-	    console.log('getUser', res.data[0]);
+	  return (0, _axios2.default)('/user/' + username).then(function (res) {
 	    return res.data[0];
 	  }).catch(function (err) {
 	    console.log('getUser', err);
 	  });
 	}
-
-	// export function getGithubInfo(username){
-	//   console.log('here!', getUser(username));
-	//   return axios.all([getUser(username), getUserInfo(username)])
-	//     .then((arr) => ({repos: data, bio: arr[0]}))
-	//     .catch((err) => (console.log(err)));
-	// }
 
 /***/ },
 /* 225 */
@@ -26285,24 +26281,19 @@
 	      this.init(nextProps.params.username);
 	    }
 	  }, {
-	    key: 'componentWillUnmount',
-	    value: function componentWillUnmount() {}
-	  }, {
 	    key: 'init',
 	    value: function init(username) {
-	      console.log(username);
-
 	      (0, _helpers.getTweets)(username).then(function (data) {
-	        console.log('got data', data);
 	        data = data === undefined ? {} : data;
-	        console.log('Tweets.js', data);
-	        this.setState({
-	          tweets: data
-	        });
+	        if (data.error) {
+	          this.props.history.pushState(null, "/login");
+	        } else {
+	          this.setState({
+	            tweets: data
+	          });
+	        }
 	      }.bind(this));
 	    }
-	    // request 10 most tweets
-
 	  }, {
 	    key: 'render',
 	    value: function render() {
@@ -26313,7 +26304,7 @@
 	        _react2.default.createElement(
 	          'ul',
 	          { className: 'list-group col-md-8', style: { paddingTop: 30 } },
-	          this.state.tweets.map(function (tweet, index) {
+	          !this.state.tweets.error && this.state.tweets.map(function (tweet, index) {
 	            return _react2.default.createElement(
 	              'li',
 	              { className: 'list-group-item', key: index, style: { padding: 20 } },
@@ -26373,8 +26364,6 @@
 
 	"use strict";
 
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
@@ -26385,77 +26374,21 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var Login = function (_React$Component) {
-	  _inherits(Login, _React$Component);
-
-	  function Login(props) {
-	    _classCallCheck(this, Login);
-
-	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Login).call(this, props));
-
-	    _this.state = {
-	      profile: {}
-	    };
-	    // console.log('profile.js router', this.props.history);
-	    return _this;
-	  }
-
-	  _createClass(Login, [{
-	    key: "componentDidMount",
-	    value: function componentDidMount() {
-	      // this.init(this.props.params.username)
-	    }
-	  }, {
-	    key: "componentWillReceiveProps",
-	    value: function componentWillReceiveProps(nextProps) {
-	      // this.init(nextProps.params.username);
-	    }
-	  }, {
-	    key: "componentWillUnmount",
-	    value: function componentWillUnmount() {}
-	  }, {
-	    key: "init",
-	    value: function init(username) {
-	      // console.log(username);
-
-	      // getUserInfo(username)
-	      //   .then(function(data){
-	      //     console.log('got data', data);
-	      //     data = (data === undefined) ? {} : data;
-	      //     console.log('profile.js', data);
-	      //     this.setState({
-	      //       profile: data
-	      //     })
-	      //   }.bind(this))
-	    }
-	  }, {
-	    key: "render",
-	    value: function render() {
-	      return _react2.default.createElement(
+	var Login = function Login() {
+	  return _react2.default.createElement(
+	    "div",
+	    { className: "row" },
+	    _react2.default.createElement(
+	      "a",
+	      { href: "/auth/twitter", style: { textDecoration: 'none', fontSize: 20, fontFamily: 'Lato', fontWeight: 300 } },
+	      _react2.default.createElement(
 	        "div",
-	        { className: "row" },
-	        _react2.default.createElement(
-	          "h3",
-	          { className: "text-center", style: { color: '#AF8CDE', marginTop: 30, fontFamily: 'Lato', fontWeight: 300 } },
-	          "This user account is private.",
-	          _react2.default.createElement(
-	            "p",
-	            null,
-	            "You need to sign in with Twitter"
-	          )
-	        )
-	      );
-	    }
-	  }]);
-
-	  return Login;
-	}(_react2.default.Component);
+	        { className: "alert alert-danger", style: { marginTop: 30 }, role: "alert" },
+	        "This user account is private. Click this to login with Twitter"
+	      )
+	    )
+	  );
+	};
 
 	exports.default = Login;
 

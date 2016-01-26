@@ -6,11 +6,8 @@ class UserProfile extends React.Component{
     this.state = {
       init: true
     }
-    // console.log('profile.js router', this.props.history);
   }
   componentWillReceiveProps(nextProps){
-    console.log('newProps', nextProps);
-    // this.init(nextProps.params.username);
     if (this.state.init) {
       this.setState({
         init: false
@@ -18,26 +15,20 @@ class UserProfile extends React.Component{
     }
   }
   handleClick() {
-    console.log(this.props.profile.protected);
-    var isPrivate = this.props.profile.protected;
-    if (isPrivate) {
-      // redirect to login page
-      this.props.history.pushState(null, "/login");
-    } else {
-      // change route to tweets
-      console.log('change route to tweets');
-      console.log(this.props.history);
-      this.props.history.pushState(null, "/tweets/" + this.props.profile.screen_name);
-    }
+    this.props.history.pushState(null, "/tweets/" + this.props.profile.screen_name);
   }
 
   render() {
     let { profile } = this.props;
-    console.log('id', profile.id);
     return (
       <div>
         <div className="center-block">
-          { (!this.state.init && profile.id === undefined) && <h3 className="text-center" style={{color: '#AF8CDE', marginTop: 30, fontFamily: 'Lato', fontWeight: 300}}> No user matches for specified terms </h3> }
+          { (!this.state.init && profile.id === undefined) && 
+            <div className="alert alert-danger" style={{marginTop: 50}} role="alert">
+            <p style={{fontSize: 20, fontFamily: 'Lato', fontWeight: 300}}>
+              No user matches for specified terms
+            </p>
+            </div> }
         </div>
         {profile.id && <div onClick={()=>this.handleClick()} className="center-block" style={{color: 'black'}}>
           <ul className="list-group" style={{marginTop: 30}}>
