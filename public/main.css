@@ -103,6 +103,9 @@ body {
   .search-info {
     font-size: 20px;
   }
+  .main-btn {
+    font-size: 2.5vw;
+  }
 }
 
 @media (min-width: 768px) {

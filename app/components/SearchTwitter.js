@@ -18,7 +18,7 @@ class SearchTwitter extends React.Component {
             <input type="text" className="form-control" ref={(ref) => this.getRef(ref)} />
           </div>
           <div className="form-group col-sm-5">
-            <button type="submit" className="btn btn-primary btn-block btn-lg outline">Search User</button>
+            <button type="submit" className="main-btn btn btn-primary btn-block btn-lg outline">Search User</button>
           </div>
         </form>
       </div>

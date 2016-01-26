@@ -3,6 +3,11 @@ import SearchTwitter from './SearchTwitter'
 
 let background = {
   background: '-webkit-gradient(linear, left top, right top, from(#99aaff), to(#7ed4e1))',
+  background: '#99aaff', /* Old browsers */
+  background: '-moz-linear-gradient(left, #99aaff 0%, #7ed4e1 100%)', /* FF3.6-15 */
+  background: '-webkit-linear-gradient(left, #99aaff 0%,#7ed4e1 100%)', /* Chrome10-25,Safari5.1-6 */
+  background: 'linear-gradient(to right, #99aaff 0%,#7ed4e1 100%)', /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: 'progid:DXImageTransform.Microsoft.gradient( startColorstr="#99aaff", endColorstr="#7ed4e1",GradientType=1 )', /* IE6-9 */
   width: '100%',
   marginTop: '-20'
 }
