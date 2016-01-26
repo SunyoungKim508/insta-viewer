@@ -47,7 +47,7 @@ app.use(passport.session());
 passport.use(new TwitterStrategy({
     consumerKey: oauth.consumer_key,
     consumerSecret: oauth.consumer_secret,
-    callbackURL: "http://localhost:3000/auth/twitter/callback",
+    callbackURL: "http://insta-viewer.herokuapp.com/auth/twitter/callback",
     passReqToCallback: true
   },
   function(req, userToken, userTokenSecret, profile, done) {
