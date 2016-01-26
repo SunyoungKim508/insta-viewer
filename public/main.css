@@ -1,3 +1,7 @@
+body {
+  font-family: 'Lato'
+}
+
 /**************************
   DEFAULT BOOTSTRAP STYLES
 **************************/
@@ -79,4 +83,30 @@
 }
 .btn:focus, .btn:active:focus, .btn.active:focus {
     outline: 0 none;
+}
+
+
+/***********************
+  MEDIA QUERY
+ ***********************/
+
+@media (max-width: 768px) {
+  .main-info {
+    display: none;
+  }
+  .twitter-head {
+    padding-bottom: 17px;
+  }
+  .search-img {
+    display: none;
+  }
+  .search-info {
+    font-size: 20px;
+  }
+}
+
+@media (min-width: 768px) {
+  .search-info {
+    font-size: 30px;
+  }
 }

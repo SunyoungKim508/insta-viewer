@@ -1,10 +1,8 @@
 import React from 'react';
 
 export default function Home () {
-  
   let styles = {
     color: '#99aaff',
-    fontFamily: 'Lato',
     marginTop: 50,
     fontWeight: 300,
     fontSize: 30
@@ -12,8 +10,8 @@ export default function Home () {
 
   return (
     <h4 className="text-center vertical-center center-block" style={styles} >
-      <i className='ion-ios-search' style={{fontSize: 60}}></i>
-      <p>Search With Twitter Viewer</p>
+      <img src={require("../img/search.png")} className="search-img" style={{width: 80, height: 80, marginTop: 15}} />
+      <p style={{marginTop: 10}} className="search-info">Search With Twitter Viewer</p>
     </h4>
   )
 
