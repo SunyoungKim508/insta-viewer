@@ -30,7 +30,7 @@ class Main extends React.Component {
             Twitter Viewer
           </p>
           <p className="text-center main-info" style={{'fontSize': 30, 'fontWeight': 100}}>
-            Allows searching for Instagram accounts by username/handle
+            Allows searching for Twitter accounts by username/handle
           </p>
           <p className="text-center main-info" style={{'fontSize': 30, 'marginTop': '-20', 'marginBottom': 55,'fontWeight': 100}}>
             Allows a user to click on a search result, thus showing them that users most recent 10 photos
