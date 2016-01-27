@@ -24753,7 +24753,7 @@
 	          _react2.default.createElement(
 	            'p',
 	            { className: 'text-center main-info', style: { 'fontSize': 30, 'fontWeight': 100 } },
-	            'Allows searching for Instagram accounts by username/handle'
+	            'Allows searching for Twitter accounts by username/handle'
 	          ),
 	          _react2.default.createElement(
 	            'p',
