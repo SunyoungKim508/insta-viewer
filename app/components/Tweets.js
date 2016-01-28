@@ -33,7 +33,7 @@ class Tweets extends React.Component {
     return (
       <div className="row" style={{color: 'black'}}>
         <div className="col-md-2"></div>
-        <ul className="list-group col-md-8" style={{paddingTop: 30}}>
+        <ul className="list-group col-md-8" style={{paddingTop: 30, paddingLeft: 15}}>
           {!this.state.tweets.error && this.state.tweets.map((tweet, index) => (
             <li className="list-group-item" key={index} style={{padding: 20}}>
               {tweet.user.profile_image_url && <img src={tweet.user.profile_image_url} style={{width: 47, height: 47}} className="pull-left" />}

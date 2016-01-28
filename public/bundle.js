@@ -26312,7 +26312,7 @@
 	        _react2.default.createElement('div', { className: 'col-md-2' }),
 	        _react2.default.createElement(
 	          'ul',
-	          { className: 'list-group col-md-8', style: { paddingTop: 30 } },
+	          { className: 'list-group col-md-8', style: { paddingTop: 30, paddingLeft: 15 } },
 	          !this.state.tweets.error && this.state.tweets.map(function (tweet, index) {
 	            return _react2.default.createElement(
 	              'li',
